@@ -34,8 +34,24 @@
 ##  Nghiệp vụ
 -ERD,...
 
-##  Bảng phân công
+## 📅 Phân công công việc
 
+| STT | Mô tả | Thành viên | Ngày  | Trạng thái |
+|:-------:|-------------|----------|----------|:------:|
+| 1 | Set up project repository | Le Huu Toan | 2024-07-20 | ✅ |
+| 2 | Create initial ERD | Nguyen Huynh Long | 2024-07-25 | 🏗️ |
+| 3 | Design Use Case Diagram | Le Huu Toan | 2024-07-30 | 🏗️ |
+| 4 | Develop Class Diagram | Nguyen Huynh Long | 2024-08-05 | 📅 |
+| 5 | Implement basic data models | Le Huu Toan | 2024-08-10 | 📅 |
+| 6 | Set up CI/CD pipeline | Nguyen Huynh Long | 2024-08-15 | 📅 |
+| 7 | Write unit tests | Le Huu Toan | 2024-08-20 | 📅 |
+| 8 | Perform initial code review | Nguyen Huynh Long | 2024-08-25 | 📅 |
+
+**Legend:**
+- ✅ Completed
+- 🏗️ In Progress
+- 📅 Scheduled
+- ❌ Blocked
 
 ## Chức năng chính
 
@@ -47,3 +63,5 @@
 <p align="center">
   <i>Let's make this project awesome together! 🚀</i>
 </p>
+
+
