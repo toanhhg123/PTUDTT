@@ -1,4 +1,4 @@
-# 🎓 Dự án: Phần mềm bán thiết bị công nghệ 
+# 🎓 Dự án: Phần mềm bán thiết bị công nghệ  
 
 ## 🌟 Giới thiệu:
 Đây là dự án hệ thống bán thiết bị công nghệ, được phát triển để cung cấp một nền tảng mua sắm trực tuyến cho các sản phẩm công nghệ như điện thoại, laptop, phụ kiện điện tử, và các thiết bị điện tử gia dụng.
