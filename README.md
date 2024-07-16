@@ -1,41 +1,46 @@
-# 🎓 School Project: Overview Team
+# 🎓 Dự án: Phần mềm bán thiết bị công nghệ 
 
-## 🌟 Project Description
-[Provide a brief, engaging description of your project and the overview team's role here.]
+## 🌟 Giới thiệu:
+Đây là dự án hệ thống bán thiết bị công nghệ, được phát triển để cung cấp một nền tảng mua sắm trực tuyến cho các sản phẩm công nghệ như điện thoại, laptop, phụ kiện điện tử, và các thiết bị điện tử gia dụng.
 
-## 👥 Team Members
-| ID | Name |
-|:--:|:-----|
-| 2001206939 | Le Huu Toan |
-| 2001206123 | Nguyen Huynh Long |
+## 👥 Thành viên
+| MSSV | Họ tên | Chức vụ |
+|:--:|:-----|:-----|
+| 2001206939 | Lê Hữu Toàn | Nhóm trưởng |
+| 2033210955 | Nguyễn Huỳnh Long | Thành viên |
 
-## 🎯 Objectives
-- [Objective 1]
-- [Objective 2]
-- [Objective 3]
 
-## 📋 Key Responsibilities
-1. [Responsibility 1]
-2. [Responsibility 2]
-3. [Responsibility 3]
 
-## 📊 Current Progress
-[Summarize your team's current status and achievements here.]
+## Cài đặt và chạy thử nghiệm
+1. **Yêu cầu hệ thống:**
+   - Node.js và npm
+   - .Net 8.0 SDK
+   - SQL Server
+   - Expo server
+   - React, React Native
+   - Docker
 
-## 🚀 Upcoming Tasks
-- [ ] [Task 1] (Deadline: DD/MM/YYYY)
-- [ ] [Task 2] (Deadline: DD/MM/YYYY)
-- [ ] [Task 3] (Deadline: DD/MM/YYYY)
+2. **Cài đặt:**
+- Bắt buộc phải cài đặt .NET 8.0 SDK
+- Clone repository
+- Vào đường dẫn chứa file program.cs
+- Chạy theo từng bước:
+   ```bash
+   dotnet restore
+   dotnet build
+   dotnet run
+  ```
+   
+##  Nghiệp vụ
+-ERD,...
 
-## 📞 Contact Information
-Feel free to reach out to us:
-- 📧 [team-email@school.edu]
-- 💬 [Other contact method]
+##  Bảng phân công
 
-## 🔗 Additional Resources
-- [📚 Project Documentation]()
-- [📝 Team Meeting Notes]()
-- [🔗 Other Relevant Links]()
+
+## Chức năng chính
+
+
+
 
 ---
 
