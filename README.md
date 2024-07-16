@@ -47,7 +47,7 @@
 | 7 | Write unit tests | Le Huu Toan | 2024-08-20 | 📅 |
 | 8 | Perform initial code review | Nguyen Huynh Long | 2024-08-25 | 📅 |
 
-**Legend:**
+** Chú thích: **
 - ✅ Completed
 - 🏗️ In Progress
 - 📅 Scheduled
