@@ -25,11 +25,12 @@
 - Clone repository
 - Vào đường dẫn chứa file program.cs
 - Chạy theo từng bước:
-   ```bash
-   dotnet restore
-   dotnet build
-   dotnet run
-  ```
+
+ ```bash
+dotnet restore
+dotnet build
+dotnet run
+```
    
 ##  Nghiệp vụ
 -ERD,...
