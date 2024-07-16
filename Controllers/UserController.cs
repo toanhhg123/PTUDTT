@@ -1,10 +1,12 @@
 using Backend.Config.Base;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
 
 [ApiController]
 [Route("user")]
+[Authorize]
 public class UserController : ControllerProvider
 {
   [HttpGet]
