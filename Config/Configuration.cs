@@ -14,7 +14,8 @@ namespace Backend.Config
         public static void ConfigureDatabase(this IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString("sql");
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+            // services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+            services.AddDbContext<PtudttContext>(options => options.UseSqlServer(connectionString));
         }
 
         public static void ConfigureServices(this IServiceCollection services)
