@@ -15,7 +15,7 @@ namespace Backend.Models.ViewModel
         public string Password { get; set; } = null!;
         [Required, MaxLength(10)]
         public string Phone { get; set; } = null!;
-        public int RoleId { get; set; }
+      
         public bool IsActive { get; set; }
     }
 }

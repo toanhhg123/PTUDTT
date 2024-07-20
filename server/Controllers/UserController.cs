@@ -10,9 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 
 public class UserController : ControllerProvider
 {
-    private readonly PtudttContext _context;
+    private readonly AppDbContext _context;
 
-    public UserController(PtudttContext context)
+    public UserController(AppDbContext context)
     {
         _context = context;
     }
@@ -40,7 +40,6 @@ public class UserController : ControllerProvider
             user.Email,
             user.Username,
             user.Phone,
-            user.Role,
             user.CreateAt,
             user.ModifiedAt,
             user.IsActive
@@ -61,7 +60,6 @@ public class UserController : ControllerProvider
             u.Email,
             u.Username,
             u.Phone,
-            u.Role,
             u.CreateAt,
             u.ModifiedAt,
             u.IsActive
@@ -93,7 +91,6 @@ public class UserController : ControllerProvider
                 Username = model.Username,
                 Password = model.Password,
                 Phone = model.Phone,
-                RoleId = model.RoleId,
                 CreateAt = DateTime.Now,
                 ModifiedAt = DateTime.Now,
                 IsActive = true
@@ -131,7 +128,6 @@ public class UserController : ControllerProvider
             user.Username = model.Username;
             user.Password = model.Password;
             user.Phone = model.Phone;
-            user.RoleId = model.RoleId;
             user.ModifiedAt = DateTime.Now;
             user.IsActive = model.IsActive;
 
