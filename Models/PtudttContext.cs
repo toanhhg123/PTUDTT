@@ -33,6 +33,8 @@ public partial class PtudttContext : DbContext
 
     public virtual DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
 
+    public virtual DbSet<Role> Roles { get; set; }
+
     public virtual DbSet<Supplier> Suppliers { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
@@ -219,6 +221,14 @@ public partial class PtudttContext : DbContext
                 .HasConstraintName("FK_PURCHASEORDER_DETAIL_PURCHASEORDER");
         });
 
+        modelBuilder.Entity<Role>(entity =>
+        {
+            entity.ToTable("Role");
+
+            entity.Property(e => e.Desc).HasMaxLength(500);
+            entity.Property(e => e.Name).HasMaxLength(50);
+        });
+
         modelBuilder.Entity<Supplier>(entity =>
         {
             entity.ToTable("Supplier");
@@ -235,7 +245,11 @@ public partial class PtudttContext : DbContext
             entity.Property(e => e.CreateAt).HasColumnType("datetime");
             entity.Property(e => e.ModifiedAt).HasColumnType("datetime");
             entity.Property(e => e.Phone).HasMaxLength(10);
-            entity.Property(e => e.Role).HasMaxLength(50);
+            entity.Property(e => e.RoleId).HasColumnName("Role_Id");
+
+            entity.HasOne(d => d.Role).WithMany(p => p.Users)
+                .HasForeignKey(d => d.RoleId)
+                .HasConstraintName("FK_USERS_ROLE");
         });
 
         modelBuilder.Entity<UsersAddress>(entity =>

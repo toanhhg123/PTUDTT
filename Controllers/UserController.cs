@@ -82,6 +82,10 @@ public class UserController : ControllerProvider
     {
         try
         {
+            if (_context.Users.Any(u => u.Username == model.Username))
+            {
+                return BadRequest(new { message = "Username already exists." });
+            }
             var newUser = new User
             {
                 Name = model.Name,
@@ -89,7 +93,7 @@ public class UserController : ControllerProvider
                 Username = model.Username,
                 Password = model.Password,
                 Phone = model.Phone,
-                Role = model.Role,
+                RoleId = model.RoleId,
                 CreateAt = DateTime.Now,
                 ModifiedAt = DateTime.Now,
                 IsActive = true
@@ -112,19 +116,23 @@ public class UserController : ControllerProvider
         try
         {
             var user = _context.Users.SingleOrDefault(i => i.Id == id);
+            
             if (user == null)
             {
                 return NotFound();
             }
-
+            if (_context.Users.Any(u => u.Username == model.Username && u.Id != id))
+            {
+                return BadRequest(new { message = "Username already exists." });
+            }
             // Cập nhật các thuộc tính của người dùng
             user.Name = model.Name;
             user.Email = model.Email;
             user.Username = model.Username;
             user.Password = model.Password;
             user.Phone = model.Phone;
-            user.Role = model.Role;
-            user.ModifiedAt = DateTime.UtcNow;
+            user.RoleId = model.RoleId;
+            user.ModifiedAt = DateTime.Now;
             user.IsActive = model.IsActive;
 
             _context.Users.Update(user);
