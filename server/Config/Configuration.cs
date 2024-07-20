@@ -22,6 +22,7 @@ namespace Backend.Config
         {
             services.AddSingleton<Constants, Constants>();
             services.AddSingleton<IAuthService, AuthService>();
+            services.AddScoped<IUserService, UserService>();
         }
 
         public static void ConfigureJwt(this IServiceCollection services, IConfiguration configuration)

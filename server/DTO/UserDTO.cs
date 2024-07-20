@@ -2,7 +2,7 @@
 
 namespace Backend.Models.ViewModel
 {
-    public class UserVM
+    public class UserDTO
     {
         [Required]
         public string Name { get; set; } = null!;
