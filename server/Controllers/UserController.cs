@@ -11,18 +11,18 @@ using Microsoft.AspNetCore.Mvc;
 
 public class UserController : ControllerProvider
 {
-    private readonly IUserRepository _userService;
+    private readonly IUserRepository _userRepo;
 
-    public UserController(IUserRepository userService)
+    public UserController(IUserRepository userRepo)
     {
-        _userService = userService;
+        _userRepo = userRepo;
     }
 
     // GET: api/user
     [HttpGet]
     public async Task<IActionResult> GetUsers()
     {
-        var users = await _userService.GetAllUsersAsync();
+        var users = await _userRepo.GetAllUsersAsync();
         return this.OnSuccess(users);
     }
 
@@ -30,7 +30,7 @@ public class UserController : ControllerProvider
     [HttpGet("{id}")]
     public async Task<IActionResult> GetUserById(int id)
     {
-        var user = await _userService.GetUserByIdAsync(id);
+        var user = await _userRepo.GetUserByIdAsync(id);
 
         if (user == null)
         {
@@ -44,12 +44,12 @@ public class UserController : ControllerProvider
     [HttpPost]
     public async Task<IActionResult> AddUser(UserDTO model)
     {
-        if (await _userService.GetUserByUsernameAsync(model.Username) != null)
+        if (await _userRepo.GetUserByUsernameAsync(model.Username) != null)
         {
             return this.OnError<User>("Username already exists.");
         }
 
-        var newUser = await _userService.AddUserAsync(model);
+        var newUser = await _userRepo.AddUserAsync(model);
         return this.OnSuccess(newUser);
     }
 
@@ -57,7 +57,7 @@ public class UserController : ControllerProvider
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateUser(int id, UserDTO model)
     {
-        var updatedUser = await _userService.UpdateUserAsync(id, model);
+        var updatedUser = await _userRepo.UpdateUserAsync(id, model);
         if (updatedUser == null)
         {
             return this.OnError<User>("User not found or username already exists.");
@@ -69,7 +69,7 @@ public class UserController : ControllerProvider
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteUser(int id)
     {
-        var deletedUser = await _userService.DeleteUserAsync(id);
+        var deletedUser = await _userRepo.DeleteUserAsync(id);
         if (deletedUser == null)
         {
             return this.OnError<User>("User not found.");
