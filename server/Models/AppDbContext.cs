@@ -11,7 +11,8 @@ namespace Backend.Models
 
     public DbSet<User> Users { get; set; }
     public DbSet<Brand> Brands { get; set; }
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+    public DbSet<Category> Categories { get; set; }
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
     }
 
