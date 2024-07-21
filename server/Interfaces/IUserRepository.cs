@@ -1,9 +1,9 @@
-﻿using Backend.Models.ViewModel;
-using Backend.Models;
+﻿using Backend.Models;
+using Backend.Models.ViewModel;
 
 namespace Backend.Interfaces
 {
-    public interface IUserService
+    public interface IUserRepository
     {
         Task<IEnumerable<User>> GetAllUsersAsync();
         Task<User?> GetUserByIdAsync(int id);
