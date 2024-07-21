@@ -14,5 +14,7 @@ namespace Backend.Models
 
         public string? Note { get; set; }
 
+        public ICollection<Product> Products { get; set; } = new List<Product>();
+
     }
 }
