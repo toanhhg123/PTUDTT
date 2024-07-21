@@ -31,6 +31,7 @@ namespace Backend.Models
         [Required]
         public bool IsActive { get; set; }
 
+        public ICollection<UserAddress> UsersAddress { get; set; } = new List<UserAddress>();
 
     }
 }
