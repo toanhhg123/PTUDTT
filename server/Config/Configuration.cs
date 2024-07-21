@@ -25,6 +25,7 @@ namespace Backend.Config
             services.AddSingleton<IAuthService, AuthService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IBrandRepository, BrandRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
         }
 
         public static void ConfigureJwt(this IServiceCollection services, IConfiguration configuration)
