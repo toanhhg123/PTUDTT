@@ -1,5 +1,6 @@
 ﻿using Backend.Interfaces;
 using Backend.Models;
+using Backend.Repository;
 using Backend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,8 @@ namespace Backend.Config
         {
             services.AddSingleton<Constants, Constants>();
             services.AddSingleton<IAuthService, AuthService>();
-            services.AddScoped<IUserRepository, UserService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IBrandRepository, BrandRepository>();
         }
 
         public static void ConfigureJwt(this IServiceCollection services, IConfiguration configuration)
