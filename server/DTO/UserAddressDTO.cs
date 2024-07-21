@@ -17,6 +17,5 @@ namespace Backend.DTO
         [Required]
         public string Country { get; set; } = null!;
         public string? PostalCode { get; set; }
-        public UserDTO User { get; set; } = null!;
     }
 }
