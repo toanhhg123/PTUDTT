@@ -19,10 +19,10 @@ namespace Backend.Models
 
         public string? Note { get; set; }
 
-        public virtual Supplier Supplier { get; set; } = null!;
+        public Supplier Supplier { get; set; } = null!;
 
-        public virtual User User { get; set; } = null!;
-        //public virtual ICollection<PurchaseOrderDetail> PurchaseOrderDetails { get; set; } = new List<PurchaseOrderDetail>();
+        public User User { get; set; } = null!;
+        public ICollection<PurchaseOrderDetail> PurchaseOrderDetails { get; set; } = new List<PurchaseOrderDetail>();
 
     }
 }

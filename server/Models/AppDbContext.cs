@@ -16,6 +16,7 @@ namespace Backend.Models
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
+        public DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<OrderDetail>()
@@ -29,6 +30,19 @@ namespace Backend.Models
             modelBuilder.Entity<OrderDetail>()
                 .HasOne(od => od.Product)
                 .WithMany(p => p.OrderDetails)
+                .HasForeignKey(od => od.ProductId);
+
+            modelBuilder.Entity<PurchaseOrderDetail>()
+               .HasKey(od => new { od.PurchaseOrderId, od.ProductId });
+
+            modelBuilder.Entity<PurchaseOrderDetail>()
+           .HasOne(od => od.PurchaseOrder)
+           .WithMany(o => o.PurchaseOrderDetails)
+           .HasForeignKey(od => od.PurchaseOrderId);
+
+            modelBuilder.Entity<PurchaseOrderDetail>()
+                .HasOne(od => od.Product)
+                .WithMany(p => p.PurchaseOrderDetails)
                 .HasForeignKey(od => od.ProductId);
 
 

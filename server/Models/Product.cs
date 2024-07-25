@@ -32,6 +32,7 @@ namespace Backend.Models
         public Category Category { get; set; } = null!;
 
         public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+        public ICollection<PurchaseOrderDetail> PurchaseOrderDetails { get; set; } = new List<PurchaseOrderDetail>();
 
     }
 }
