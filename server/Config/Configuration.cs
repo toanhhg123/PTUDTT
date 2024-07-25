@@ -22,7 +22,7 @@ namespace Backend.Config
         public static void ConfigureServices(this IServiceCollection services)
         {
             services.AddSingleton<Constants, Constants>();
-            services.AddSingleton<IAuthService, AuthService>();
+            services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IBrandRepository, BrandRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -48,6 +48,11 @@ namespace Backend.Config
                         ClockSkew = TimeSpan.Zero
                     };
                 });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminOnly", policy => policy.RequireRole("admin"));
+                options.AddPolicy("UserOnly", policy => policy.RequireRole("user"));
+            });
         }
 
         public static void ConfigureSwagger(this IServiceCollection services)

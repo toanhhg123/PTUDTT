@@ -1,21 +1,24 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Backend.Models.ViewModel
+namespace Backend.DTO.UserAccount
 {
-    public class UserDTO
+    public class RegisterDTO
     {
         [Required]
+        [StringLength(50)]
         public string Name { get; set; } = null!;
-        [Required, DataType(DataType.EmailAddress)]
+        [Required]
+        public string Username { get; set; } = null!;
+        [Required]
+        public string Password { get; set; } = null!;
+        [Required]
+        [EmailAddress]
         public string Email { get; set; } = null!;
         [Required]
-        
-        public string Username { get; set; } = null!;
-        [DataType(DataType.Password), Required]
-        public string Password { get; set; } = null!;
-        [Required, MaxLength(10)]
+        [StringLength(50)]
         public string Phone { get; set; } = null!;
-      
-        public bool IsActive { get; set; }
+       
+       
+
     }
 }
