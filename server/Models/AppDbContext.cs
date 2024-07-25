@@ -13,7 +13,8 @@ namespace Backend.Models
         public DbSet<Product> Products { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<Payment> Payments { get; set; }
-        
+        public DbSet<Order> Orders { get; set; }
+
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
