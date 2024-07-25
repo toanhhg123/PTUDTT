@@ -15,7 +15,7 @@ namespace Backend.Models
         [Column(TypeName = "decimal(18,2)")]
         public decimal Amount { get; set; }
 
-    //    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+        public Order Orders { get; set; } = new Order();
 
     }
 }
