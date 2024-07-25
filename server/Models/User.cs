@@ -24,7 +24,8 @@ namespace Backend.Models
         [Required]
         [StringLength(10)]
         public string Phone { get; set; } = null!;
-
+        [Required]
+        public string Role { get; set; } = "User"; // default Value = user
         public DateTime? CreateAt { get; set; }
 
         public DateTime? ModifiedAt { get; set; }
