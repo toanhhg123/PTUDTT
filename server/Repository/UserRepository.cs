@@ -4,6 +4,7 @@ using Backend.Models.ViewModel;
 using Backend.Utils.Commons;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace Backend.Services
 {
@@ -40,6 +41,7 @@ namespace Backend.Services
                 Username = model.Username,
                 Password = model.Password,
                 Phone = model.Phone,
+                Role = model.Role,
                 CreateAt = DateTime.Now,
                 ModifiedAt = DateTime.Now,
                 IsActive = true
@@ -69,6 +71,7 @@ namespace Backend.Services
             user.Username = model.Username;
             user.Password = model.Password;
             user.Phone = model.Phone;
+            user.Role = model.Role;
             user.ModifiedAt = DateTime.Now;
             user.IsActive = model.IsActive;
 
