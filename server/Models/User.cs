@@ -32,6 +32,9 @@ namespace Backend.Models
         public bool IsActive { get; set; }
 
         public ICollection<UserAddress> UsersAddress { get; set; } = new List<UserAddress>();
+        public ICollection<Cart> Carts { get; set; } = new List<Cart>();
 
+        public ICollection<Order> Orders { get; set; } = new List<Order>();
+        public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; } = new List<PurchaseOrder>();
     }
 }
