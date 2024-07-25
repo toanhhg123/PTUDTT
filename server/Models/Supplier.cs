@@ -22,6 +22,7 @@ namespace Backend.Models
         public string Phone { get; set; } = null!;
 
         public string? Note { get; set; }
+        public ICollection<PurchaseOrder> PurchaseOrders { get; set; } = new List<PurchaseOrder>();
 
     }
 }
