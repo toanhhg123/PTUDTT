@@ -2,6 +2,7 @@
 using Backend.Interfaces;
 using Backend.Models;
 using Backend.Models.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -19,6 +20,7 @@ public class UserController : ControllerProvider
     }
 
     // GET: api/user
+    //[Authorize(Policy = "AdminOnly")]
     [HttpGet]
     public async Task<IActionResult> GetUsers()
     {
