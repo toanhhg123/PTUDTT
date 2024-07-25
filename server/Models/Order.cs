@@ -23,7 +23,7 @@ namespace Backend.Models
         public User User { get; set; } = null!;
         public Payment Payment { get; set; } = null!;
 
-        // public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+        public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
     }
 }
