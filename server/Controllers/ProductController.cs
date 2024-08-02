@@ -1,5 +1,6 @@
 ﻿using Backend.Config.Base;
 using Backend.DTO;
+using Backend.DTO.Product;
 using Backend.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -62,6 +63,18 @@ namespace Backend.Controllers
                 return OnError<ProductDTO>("Product not found.");
             }
             return OnSuccess(deletedProduct);
+        }
+        [HttpGet("filter")]
+        public async Task<IActionResult> GetFilteredProducts([FromQuery] ProductFilterDTO filter)
+        {
+            var products = await _productRepo.GetFilteredProductsAsync(filter);
+
+            if (products == null || !products.Any())
+            {
+                return this.OnError<IEnumerable<ProductDTO>>("No products found matching the criteria.");
+            }
+
+            return this.OnSuccess(products);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Backend.DTO;
+using Backend.DTO.Product;
 using Backend.Models;
 
 namespace Backend.Interfaces
@@ -10,5 +11,6 @@ namespace Backend.Interfaces
         Task<Product> AddProductAsync(ProductDTO model);
         Task<Product?> UpdateProductAsync(int id, ProductDTO model);
         Task<Product?> DeleteProductAsync(int id);
+        Task<IEnumerable<ProductDTO>> GetFilteredProductsAsync(ProductFilterDTO filter);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Backend.DTO;
+using Backend.DTO.Product;
 using Backend.Interfaces;
 using Backend.Models;
 using Microsoft.EntityFrameworkCore;
@@ -83,5 +84,52 @@ namespace Backend.Repository
 
             return product;
         }
+        public async Task<IEnumerable<ProductDTO>> GetFilteredProductsAsync(ProductFilterDTO filter)
+        {
+            var query = _context.Products.AsQueryable();
+
+            if (filter.MinPrice.HasValue)
+            {
+                query = query.Where(p => p.SellPrice >= filter.MinPrice.Value);
+            }
+
+            if (filter.MaxPrice.HasValue)
+            {
+                query = query.Where(p => p.SellPrice <= filter.MaxPrice.Value);
+            }
+
+            if (!string.IsNullOrEmpty(filter.SizeInch))
+            {
+                query = query.Where(p => p.ProductName.ToLower().Contains(filter.SizeInch.ToLower()));
+            }
+
+            if (!string.IsNullOrEmpty(filter.Color))
+            {
+                query = query.Where(p => p.ProductName.ToLower().Contains(filter.Color.ToLower()));
+            }
+
+            var products = await query.ToListAsync();
+
+            // Trả về danh sách sản phẩm nếu tìm thấy
+            if (products.Any())
+            {
+                return products.Select(p => new ProductDTO
+                {
+                    ProductName = p.ProductName,
+                    Desc = p.Desc,
+                    Stock = p.Stock,
+                    PurchasePrice = p.PurchasePrice,
+                    SellPrice = p.SellPrice,
+                    Image = p.Image,
+                    CategoryId = p.CategoryId,
+                    BrandId = p.BrandId,
+                    IsActive = p.IsActive
+                }).ToList();
+            }
+
+            // Trả về null nếu không tìm thấy sản phẩm
+            return null;
+        }
+
     }
 }
