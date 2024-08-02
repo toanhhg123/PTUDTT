@@ -45,6 +45,7 @@ export default function HomeScreen() {
               <Text style={{ color: colors.primary }}>See All</Text>
             </TouchableOpacity>
           </View>
+
           <View style={{ flexDirection: "row", height: 200, gap: 12 }}>
             <CardProduct
               price={130}

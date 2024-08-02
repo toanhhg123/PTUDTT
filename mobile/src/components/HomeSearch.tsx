@@ -5,6 +5,7 @@ import { useCallback, useRef } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import CustomBackdrop from "./CustomBackdrop";
 import FilterView from "./FilterView";
+import { TextInput } from "react-native-gesture-handler";
 
 export default function HomeSearch() {
   const { colors } = useTheme();
@@ -40,16 +41,18 @@ export default function HomeSearch() {
           }}
         >
           <Icons name="search" size={24} color={colors.border} />
-          <Text
+          <TextInput
+            placeholder=" Search..."
+            onChangeText={(value) => {
+              console.log(value);
+            }}
             style={{
               color: colors.text,
               opacity: 0.5,
               fontSize: 16,
               flex: 1,
             }}
-          >
-            Search...
-          </Text>
+          />
         </TouchableOpacity>
 
         <TouchableOpacity

@@ -59,11 +59,31 @@ const SLEEVES = [
   },
 ];
 
-const FilterView = () => {
+type FilterHome = {
+  price: { startPrice: number; endPrice: number };
+  color: string;
+};
+
+interface Props {
+  onFilter?: (filter: FilterHome) => {};
+}
+
+const FilterView = ({ onFilter }: Props) => {
   const [startPrice, setStartPrice] = useState(50);
   const [endPrice, setEndPrice] = useState(250);
+  const [color, setColor] = useState("Red");
+  const [inch, setInch] = useState(5.1);
   const theme = useTheme();
   const insets = useSafeAreaInsets();
+
+  const handleFilter = () => {
+    onFilter &&
+      onFilter({
+        price: { startPrice, endPrice },
+        color: "",
+      });
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <BottomSheetScrollView style={{ flex: 1 }}>
@@ -111,16 +131,17 @@ const FilterView = () => {
           {/* Sports Category Filter */}
           <View style={{ paddingHorizontal: 24 }}>
             <Text style={{ fontSize: 16, fontWeight: "600", marginBottom: 12 }}>
-              Sports
+              Inch
             </Text>
             <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 12 }}>
-              {new Array(7).fill("").map((_, i) => {
+              {[5.1, 5.2, 6.1, 6.2, 7.1].map((item, i) => {
                 return (
                   <Chip
                     key={i}
                     itemCount={i}
-                    label="Item"
-                    isSelected={i === 0}
+                    label={item.toString()}
+                    onSelectItem={(label) => setInch(Number(label))}
+                    isSelected={inch === item}
                   />
                 );
               })}
@@ -148,7 +169,8 @@ const FilterView = () => {
                         }}
                       />
                     }
-                    isSelected={i === 0}
+                    onSelectItem={(label) => setColor(label)}
+                    isSelected={item.label === color}
                   />
                 );
               })}
@@ -183,6 +205,7 @@ const FilterView = () => {
         }}
       >
         <TouchableOpacity
+          onPress={handleFilter}
           style={{
             backgroundColor: theme.colors.primary,
             height: 64,
@@ -229,18 +252,20 @@ export default FilterView;
 const Chip = ({
   isSelected,
   label,
-  itemCount,
   left,
+  onSelectItem,
 }: {
   isSelected: boolean;
   label: string;
   itemCount: number;
   left?: ReactNode;
+  onSelectItem?: (label: string) => void;
 }) => {
   const theme = useTheme();
 
   return (
-    <View
+    <TouchableOpacity
+      onPress={() => onSelectItem && onSelectItem(label)}
       style={{
         paddingHorizontal: 16,
         paddingVertical: 10,
@@ -259,8 +284,8 @@ const Chip = ({
           color: isSelected ? theme.colors.background : theme.colors.text,
         }}
       >
-        {label} [{itemCount}]
+        {label}
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 };
