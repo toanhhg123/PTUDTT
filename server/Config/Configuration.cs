@@ -30,6 +30,9 @@ namespace Backend.Config
       services.AddScoped<IUserAddressRepository, UserAddressRepository>();
       services.AddScoped<IProductRepository, ProductRepository>();
       services.AddScoped<ICartRepository, CartRepository>();
+      services.AddScoped<IOrderRepository, OrderRepository>();
+     
+     
         }
 
     public static void ConfigureJwt(this IServiceCollection services, IConfiguration configuration)
@@ -96,5 +99,12 @@ namespace Backend.Config
 
       services.AddProblemDetails();
     }
-  }
+        public static void AddJsonOption(IServiceCollection services)
+        {
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+            });
+        }
+    }
 }
