@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Backend.Models
 {
@@ -9,7 +10,7 @@ namespace Backend.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int UserId { get; set; }
-        public int PaymentId { get; set; }
+      
         [Column(TypeName = "decimal(18,2)")]
         public decimal TotalPrice { get; set; }
 
@@ -19,10 +20,10 @@ namespace Backend.Models
 
         public string? Note { get; set; }
 
-        public string Status { get; set; } = null!;
+        public string? Status { get; set; }
         public User User { get; set; } = null!;
-        public Payment Payment { get; set; } = null!;
-
+       
+        [JsonIgnore]
         public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
     }

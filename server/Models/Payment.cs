@@ -8,7 +8,7 @@ namespace Backend.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
+        public int OrderId { get; set; }
         public string PaymentMethod { get; set; } = null!;
 
         public DateTime DateOfPayment { get; set; }
