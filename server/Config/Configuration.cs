@@ -10,66 +10,66 @@ using System.Text;
 
 namespace Backend.Config
 {
-    public static class Configuration
+  public static partial class Configuration
+  {
+    public static void ConfigureDatabase(this IServiceCollection services, IConfiguration configuration)
     {
-        public static void ConfigureDatabase(this IServiceCollection services, IConfiguration configuration)
-        {
-            var connectionString = configuration.GetConnectionString("sql");
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
-           
-        }
+      var connectionString = configuration.GetConnectionString("sql");
+      services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
-        public static void ConfigureServices(this IServiceCollection services)
-        {
-            services.AddSingleton<Constants, Constants>();
-            services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IBrandRepository, BrandRepository>();
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<ISupplierRepository, SupplierRepository>();
-            services.AddScoped<IUserAddressRepository, UserAddressRepository>();
-            services.AddScoped<IProductRepository, ProductRepository>();
-        }
+    }
 
-        public static void ConfigureJwt(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = configuration["Jwt:Issuer"],
-                        ValidAudience = configuration["Jwt:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!)),
-                        ClockSkew = TimeSpan.Zero
-                    };
-                });
-            services.AddAuthorization(options =>
+    public static void ConfigureServices(this IServiceCollection services)
+    {
+      services.AddSingleton<Constants, Constants>();
+      services.AddScoped<IAuthService, AuthService>();
+      services.AddScoped<IUserRepository, UserRepository>();
+      services.AddScoped<IBrandRepository, BrandRepository>();
+      services.AddScoped<ICategoryRepository, CategoryRepository>();
+      services.AddScoped<ISupplierRepository, SupplierRepository>();
+      services.AddScoped<IUserAddressRepository, UserAddressRepository>();
+      services.AddScoped<IProductRepository, ProductRepository>();
+    }
+
+    public static void ConfigureJwt(this IServiceCollection services, IConfiguration configuration)
+    {
+      services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+          .AddJwtBearer(options =>
+          {
+            options.TokenValidationParameters = new TokenValidationParameters
             {
-                options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
-                options.AddPolicy("UserOnly", policy => policy.RequireRole("User"));
-            });
-        }
+              ValidateIssuer = true,
+              ValidateAudience = true,
+              ValidateLifetime = true,
+              ValidateIssuerSigningKey = true,
+              ValidIssuer = configuration["Jwt:Issuer"],
+              ValidAudience = configuration["Jwt:Audience"],
+              IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!)),
+              ClockSkew = TimeSpan.Zero
+            };
+          });
+      services.AddAuthorization(options =>
+      {
+        options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+        options.AddPolicy("UserOnly", policy => policy.RequireRole("User"));
+      });
+    }
 
-        public static void ConfigureSwagger(this IServiceCollection services)
+    public static void ConfigureSwagger(this IServiceCollection services)
+    {
+      services.AddSwaggerGen(c =>
+      {
+        c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+        c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
         {
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer"
-                });
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
+          Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+          Name = "Authorization",
+          In = ParameterLocation.Header,
+          Type = SecuritySchemeType.ApiKey,
+          Scheme = "Bearer"
+        });
+        c.AddSecurityRequirement(new OpenApiSecurityRequirement
+          {
                     {
                         new OpenApiSecurityScheme
                         {
@@ -84,16 +84,16 @@ namespace Backend.Config
                         },
                         new List<string>()
                     }
-                });
-            });
-        }
-
-        public static void ConfigureExceptionHandling(this IServiceCollection services)
-        {
-            services.AddExceptionHandler<NotFoundExceptionHandler>();
-            services.AddExceptionHandler<GlobalExceptionHandler>();
-
-            services.AddProblemDetails();
-        }
+          });
+      });
     }
+
+    public static void ConfigureExceptionHandling(this IServiceCollection services)
+    {
+      services.AddExceptionHandler<NotFoundExceptionHandler>();
+      services.AddExceptionHandler<GlobalExceptionHandler>();
+
+      services.AddProblemDetails();
+    }
+  }
 }

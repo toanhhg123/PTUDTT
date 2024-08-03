@@ -3,6 +3,9 @@ using Backend.Config.ExceptionHandle;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+builder.Services.ConfigureCors();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
@@ -27,13 +30,14 @@ builder.Services.ConfigureExceptionHandling();
 // * end handle global exception
 
 var app = builder.Build();
+app.UseCors("AllowAll");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-    // app.UseExceptionHandler("/error");
+  app.UseSwagger();
+  app.UseSwaggerUI();
+  // app.UseExceptionHandler("/error");
 }
 
 app.UseHttpsRedirection();
@@ -44,5 +48,6 @@ app.MapControllers();
 
 app.UseExceptionHandler();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 
 app.Run();
