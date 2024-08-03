@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Backend.Models
 {
@@ -30,9 +31,11 @@ namespace Backend.Models
         public Brand Brand { get; set; } = null!;
 
         public Category Category { get; set; } = null!;
-
+        [JsonIgnore]
         public ICollection<Cart> Carts { get; set; } = new List<Cart>();
+        [JsonIgnore]
         public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+        [JsonIgnore]
         public ICollection<PurchaseOrderDetail> PurchaseOrderDetails { get; set; } = new List<PurchaseOrderDetail>();
 
     }
