@@ -8,11 +8,11 @@ import { Plus as PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus';
 import { Upload as UploadIcon } from '@phosphor-icons/react/dist/ssr/Upload';
 
 import { config } from '@/config';
-import CategoryList from '@/components/category/list';
+import UserList from '@/components/user/list';
 
-export const metadata = { title: `Category | Dashboard | ${config.site.name}` } satisfies Metadata;
+export const metadata = { title: `User | Dashboard | ${config.site.name}` } satisfies Metadata;
 
-function CategoryPage(): React.ReactNode {
+function UserPage(): React.ReactNode {
   return (
     <Stack spacing={3}>
       <Stack direction="row" spacing={3}>
@@ -33,9 +33,9 @@ function CategoryPage(): React.ReactNode {
           </Button>
         </div>
       </Stack>
-      <CategoryList />
+      <UserList />
     </Stack>
   );
 }
 
-export default CategoryPage;
+export default UserPage;

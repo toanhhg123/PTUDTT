@@ -8,16 +8,16 @@ import { Plus as PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus';
 import { Upload as UploadIcon } from '@phosphor-icons/react/dist/ssr/Upload';
 
 import { config } from '@/config';
-import CategoryList from '@/components/category/list';
+import BranchList from '@/components/brand/list';
 
-export const metadata = { title: `Category | Dashboard | ${config.site.name}` } satisfies Metadata;
+export const metadata = { title: `Products | Dashboard | ${config.site.name}` } satisfies Metadata;
 
-function CategoryPage(): React.ReactNode {
+function ProductPage(): React.ReactNode {
   return (
     <Stack spacing={3}>
       <Stack direction="row" spacing={3}>
         <Stack spacing={1} sx={{ flex: '1 1 auto' }}>
-          <Typography variant="h4">User</Typography>
+          <Typography variant="h4">Brand</Typography>
           <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
             <Button color="inherit" startIcon={<UploadIcon fontSize="var(--icon-fontSize-md)" />}>
               Import
@@ -33,9 +33,9 @@ function CategoryPage(): React.ReactNode {
           </Button>
         </div>
       </Stack>
-      <CategoryList />
+      <BranchList />
     </Stack>
   );
 }
 
-export default CategoryPage;
+export default ProductPage;

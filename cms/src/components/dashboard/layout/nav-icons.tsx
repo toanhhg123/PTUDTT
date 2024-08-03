@@ -1,3 +1,4 @@
+import { GitBranch } from '@phosphor-icons/react';
 import type { Icon } from '@phosphor-icons/react/dist/lib/types';
 import { Tag, TreasureChest } from '@phosphor-icons/react/dist/ssr';
 import { ChartPie as ChartPieIcon } from '@phosphor-icons/react/dist/ssr/ChartPie';
@@ -16,4 +17,5 @@ export const navIcons = {
   users: UsersIcon,
   product: Tag,
   category: TreasureChest,
+  brand: GitBranch,
 } as Record<string, Icon>;
