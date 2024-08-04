@@ -21,7 +21,7 @@ export default function Layout({ children }: LayoutProps): React.JSX.Element {
     <html lang="en">
       <body>
         <ReactQueryContext>
-          <Toaster richColors />
+          <Toaster richColors position="top-right" />
           <LocalizationProvider>
             <UserProvider>
               <ThemeProvider>{children}</ThemeProvider>

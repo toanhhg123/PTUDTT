@@ -25,7 +25,7 @@ function FormFieldInput<T extends FieldValues>({ label, form, name }: PropsType<
             <OutlinedInput
               ref={ref}
               onBlur={onBlur}
-              value={value}
+              value={value || ''}
               label={label}
               type="text"
               onChange={(e) => {

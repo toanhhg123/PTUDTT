@@ -19,7 +19,7 @@ export default class BaseApi<TGet extends BaseModel, TPost, TPatch> {
   }
 
   update(id: number, body: TPatch): Promise<AxiosResponseApi<TGet>> {
-    return axiosClient.patch(`${this.url}/${id}`, body);
+    return axiosClient.put(`${this.url}/${id}`, body);
   }
 
   delete(id: number): Promise<AxiosResponseApi<TGet>> {

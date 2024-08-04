@@ -30,7 +30,7 @@ function FormFieldSelect<T extends FieldValues>({ label, form, name, items }: Pr
               onChange={(e) => {
                 onChange(e.target.value);
               }}
-              defaultValue={value}
+              value={value || undefined}
               label={label}
               variant="outlined"
             >
