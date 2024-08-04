@@ -24,7 +24,7 @@ namespace Backend.Controllers
         {
             if (orderDto == null)
             {
-                return OnError<Order>("Invalid order data.");
+                throw new Exception("Invalid order data.");
             }
 
             try
@@ -34,7 +34,7 @@ namespace Backend.Controllers
             }
             catch (Exception ex)
             {
-                return OnError<Order>(ex.Message);
+                throw new Exception(ex.Message);
             }
         }
 
@@ -46,7 +46,7 @@ namespace Backend.Controllers
 
             if (order == null)
             {
-                return OnError<Order>("Order not found.");
+                throw new Exception("Order not found.");
             }
 
             return OnSuccess(order);

@@ -29,7 +29,7 @@ namespace Backend.Controllers
             }
             catch (Exception)
             {
-                return this.OnError<Cart>("An error occurred while fetching the cart items.");
+                throw new Exception("An error occurred while fetching the cart items.");
             }
         }
 
@@ -43,7 +43,7 @@ namespace Backend.Controllers
             }
             catch (Exception)
             {
-                return this.OnError<Cart>("An error occurred while adding product to cart.");
+                throw new Exception("An error occurred while adding product to cart.");
             }
         }
 
@@ -58,7 +58,7 @@ namespace Backend.Controllers
             }
             catch (Exception)
             {
-                return this.OnError<Cart>("An error occurred while updating the cart item.");
+                throw new Exception("An error occurred while updating the cart item.");
             }
         }
 
@@ -73,7 +73,7 @@ namespace Backend.Controllers
             }
             catch (Exception)
             {
-                return this.OnError<Cart>("An error occurred while removing the cart item.");
+                throw new Exception("An error occurred while removing the cart item.");
             }
         }
 

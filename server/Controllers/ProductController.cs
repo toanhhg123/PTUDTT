@@ -31,7 +31,7 @@ namespace Backend.Controllers
             var product = await _productRepo.GetProductByIdAsync(id);
             if (product == null)
             {
-                return OnError<ProductDTO>("Product not found.");
+                throw new Exception("Product not found.");
             }
             return OnSuccess(product);
         }
@@ -49,7 +49,7 @@ namespace Backend.Controllers
             var updatedProduct = await _productRepo.UpdateProductAsync(id, model);
             if (updatedProduct == null)
             {
-                return OnError<ProductDTO>("Product not found or duplicate name.");
+                throw new Exception("Product not found or duplicate name.");
             }
             return OnSuccess(updatedProduct);
         }
@@ -60,7 +60,7 @@ namespace Backend.Controllers
             var deletedProduct = await _productRepo.DeleteProductAsync(id);
             if (deletedProduct == null)
             {
-                return OnError<ProductDTO>("Product not found.");
+                throw new Exception("Product not found.");
             }
             return OnSuccess(deletedProduct);
         }
@@ -71,7 +71,7 @@ namespace Backend.Controllers
 
             if (products == null || !products.Any())
             {
-                return this.OnError<IEnumerable<ProductDTO>>("No products found matching the criteria.");
+                throw new Exception("No products found matching the criteria.");
             }
 
             return this.OnSuccess(products);

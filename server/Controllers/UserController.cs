@@ -36,7 +36,7 @@ public class UserController : ControllerProvider
 
         if (user == null)
         {
-            return this.OnError<User>("User not found.");
+            throw new Exception("User not found.");
         }
 
         return this.OnSuccess(user);
@@ -48,7 +48,7 @@ public class UserController : ControllerProvider
     {
         if (await _userRepo.GetUserByUsernameAsync(model.Username) != null)
         {
-            return this.OnError<User>("Username already exists.");
+            throw new Exception("Username already exists.");
         }
 
         var newUser = await _userRepo.AddUserAsync(model);
@@ -62,7 +62,7 @@ public class UserController : ControllerProvider
         var updatedUser = await _userRepo.UpdateUserAsync(id, model);
         if (updatedUser == null)
         {
-            return this.OnError<User>("User not found or username already exists.");
+            throw new Exception("User not found or username already exists.");
         }
         return this.OnSuccess(updatedUser);
     }
@@ -74,7 +74,7 @@ public class UserController : ControllerProvider
         var deletedUser = await _userRepo.DeleteUserAsync(id);
         if (deletedUser == null)
         {
-            return this.OnError<User>("User not found.");
+            throw new Exception("User not found.");
         }
         return this.OnSuccess(deletedUser);
     }

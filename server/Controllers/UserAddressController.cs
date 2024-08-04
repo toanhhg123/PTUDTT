@@ -32,7 +32,7 @@ namespace Backend.Controllers
             var userAddress = await _userAddressRepo.GetUserAddressByIdAsync(id);
             if (userAddress == null)
             {
-                return this.OnError<string>("User address not found.");
+                throw new Exception("User address not found.");
             }
 
             return this.OnSuccess(userAddress);
@@ -49,7 +49,7 @@ namespace Backend.Controllers
             }
             catch (Exception ex)
             {
-                return this.OnError<string>(ex.Message);
+                throw new Exception(ex.Message);
             }
         }
 
@@ -62,14 +62,14 @@ namespace Backend.Controllers
                 var updatedUserAddress = await _userAddressRepo.UpdateUserAddressAsync(id, model);
                 if (updatedUserAddress == null)
                 {
-                    return this.OnError<string>("User address not found or unable to update.");
+                    throw new Exception("User address not found or unable to update.");
                 }
 
                 return this.OnSuccess(updatedUserAddress);
             }
             catch (Exception ex)
             {
-                return this.OnError<string>(ex.Message);
+                throw new Exception(ex.Message);
             }
         }
 
@@ -80,7 +80,7 @@ namespace Backend.Controllers
             var deletedUserAddress = await _userAddressRepo.DeleteUserAddressAsync(id);
             if (deletedUserAddress == null)
             {
-                return this.OnError<string>("User address not found or unable to delete.");
+                throw new Exception("User address not found or unable to delete.");
             }
 
             return this.OnSuccess(deletedUserAddress);

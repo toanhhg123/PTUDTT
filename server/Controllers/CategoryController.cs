@@ -31,7 +31,7 @@ namespace Backend.Controllers
             var category = await _categoryRepo.GetCategoryByIdAsync(id);
             if (category == null)
             {
-                return this.OnError<Category>("Category not found.");
+                throw new Exception("Category not found.");
             }
 
             return this.OnSuccess(category);
@@ -43,7 +43,7 @@ namespace Backend.Controllers
         {
             if (await _categoryRepo.GetCategoryByNameAsync(model.Name) != null)
             {
-                return OnError<Category>("Category name already exists.");
+                throw new Exception("Category name already exists.");
             }
 
             var newCategory = await _categoryRepo.AddCategoryAsync(model);
@@ -58,7 +58,7 @@ namespace Backend.Controllers
             var updatedCategory = await _categoryRepo.UpdateCategoryAsync(id, model);
             if (updatedCategory == null)
             {
-                return this.OnError<Category>("Category not found or brand name already exists.");
+                throw new Exception("Category not found or brand name already exists.");
             }
 
             return this.OnSuccess(updatedCategory);
@@ -71,7 +71,7 @@ namespace Backend.Controllers
             var deletedCategory = await _categoryRepo.DeleteCategoryAsync(id);
             if (deletedCategory == null)
             {
-                return this.OnError<Category>("Category not found or unable to delete.");
+                throw new Exception("Category not found or unable to delete.");
             }
 
             return this.OnSuccess(deletedCategory);

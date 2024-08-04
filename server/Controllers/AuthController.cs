@@ -38,7 +38,7 @@ namespace Backend.Controllers
             var token = await _authService.LoginAsync(user);
             if (token == null)
             {
-                return OnError<string>("Invalid username or password.");
+                throw new Exception("Invalid username or password.");
             }
 
             return OnSuccess(token);
@@ -50,7 +50,7 @@ namespace Backend.Controllers
             var newUser = await _authService.RegisterAsync(user);
             if (newUser == null)
             {
-                return OnError<string>("Username already exists.");
+                throw new Exception("Username already exists.");
             }
 
             return OnSuccess(newUser);

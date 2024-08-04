@@ -34,7 +34,7 @@ namespace Backend.Controllers
             var brand = await _brandRepo.GetBrandByIdAsync(id);
             if (brand == null)
             {
-                return OnError<Brand>("Brand not found.");
+                throw new Exception("Brand not found.");
             }
             return OnSuccess(brand);
         }
@@ -46,7 +46,7 @@ namespace Backend.Controllers
         {
             if (await _brandRepo.GetBrandByNameAsync(model.Name) != null)
             {
-                return OnError<Brand>("Brand name already exists.");
+                throw new Exception("Brand name already exists.");
             }
 
             var newBrand = await _brandRepo.AddBrandAsync(model);
@@ -61,7 +61,7 @@ namespace Backend.Controllers
             var updatedBrand = await _brandRepo.UpdateBrandAsync(id, model);
             if (updatedBrand == null)
             {
-                return OnError<Brand>("Brand not found or brand name already exists.");
+                throw new Exception("Brand not found or brand name already exists.");
             }
             return OnSuccess(updatedBrand);
         }
@@ -74,7 +74,7 @@ namespace Backend.Controllers
             var deletedBrand = await _brandRepo.DeleteBrandAsync(id);
             if (deletedBrand == null)
             {
-                return OnError<Brand>("Brand not found.");
+                throw new Exception("Brand not found.");
             }
             return OnSuccess(deletedBrand);
         }

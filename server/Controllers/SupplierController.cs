@@ -32,7 +32,7 @@ namespace Backend.Controllers
             var supplier = await _supplierRepo.GetSupplierByIdAsync(id);
             if (supplier == null)
             {
-                return this.OnError<string>("Supplier not found.");
+                throw new Exception("Supplier not found.");
             }
 
             return this.OnSuccess(supplier);
@@ -49,7 +49,7 @@ namespace Backend.Controllers
             }
             catch (Exception ex)
             {
-                return this.OnError<string>(ex.Message);
+                throw new Exception(ex.Message);
             }
         }
 
@@ -62,14 +62,14 @@ namespace Backend.Controllers
                 var updatedSupplier = await _supplierRepo.UpdateSupplierAsync(id, model);
                 if (updatedSupplier == null)
                 {
-                    return this.OnError<string>("Supplier not found or unable to update.");
+                    throw new Exception("Supplier not found or unable to update.");
                 }
 
                 return this.OnSuccess(updatedSupplier);
             }
             catch (Exception ex)
             {
-                return this.OnError<string>(ex.Message);
+                throw new Exception(ex.Message);
             }
         }
 
@@ -80,7 +80,7 @@ namespace Backend.Controllers
             var deletedSupplier = await _supplierRepo.DeleteSupplierAsync(id);
             if (deletedSupplier == null)
             {
-                return this.OnError<string>("Supplier not found or unable to delete.");
+                throw new Exception("Supplier not found or unable to delete.");
             }
 
             return this.OnSuccess(deletedSupplier);
