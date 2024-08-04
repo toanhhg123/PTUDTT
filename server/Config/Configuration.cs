@@ -31,8 +31,8 @@ namespace Backend.Config
       services.AddScoped<IProductRepository, ProductRepository>();
       services.AddScoped<ICartRepository, CartRepository>();
       services.AddScoped<IOrderRepository, OrderRepository>();
-     
-     
+      services.AddScoped<IStatisticsRepository, StatisticsRepository>();
+
         }
 
     public static void ConfigureJwt(this IServiceCollection services, IConfiguration configuration)
