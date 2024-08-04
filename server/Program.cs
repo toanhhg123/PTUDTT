@@ -29,11 +29,6 @@ builder.Services.ConfigureSwagger();
 builder.Services.ConfigureExceptionHandling();
 // * end handle global exception
 
-builder.Services.AddControllers().AddJsonOptions(options =>
-{
-    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
-});
-
 var app = builder.Build();
 app.UseCors("AllowAll");
 
