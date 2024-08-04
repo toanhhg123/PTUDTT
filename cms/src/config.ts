@@ -1,5 +1,10 @@
+import { AxiosError } from 'axios';
+import { toast } from 'sonner';
+
 import { getSiteURL } from '@/lib/get-site-url';
 import { LogLevel } from '@/lib/logger';
+
+import { type AxiosErrorResponse } from './base/axios';
 
 export interface Config {
   site: { name: string; description: string; themeColor: string; url: string };
@@ -17,4 +22,15 @@ export const serverConfig = {
 
 export const clientConfig = {
   URL_API: process.env.NEXT_PUBLIC_URL_API!,
+};
+
+export const showToastSuccess = (type: 'create' | 'update' | 'delete'): void => {
+  toast.success(`${type} success`);
+};
+
+export const showToastError = (error: Error): void => {
+  if (error instanceof AxiosError && error.response?.data) {
+    const response = error.response.data as AxiosErrorResponse;
+    toast.error(response.error || JSON.stringify(error.response.data || error.message));
+  }
 };

@@ -4,6 +4,7 @@ import type { Viewport } from 'next';
 import '@/styles/global.css';
 
 import ReactQueryContext from '@/context/react-query';
+import { Toaster } from 'sonner';
 
 import { UserProvider } from '@/contexts/user-context';
 import { LocalizationProvider } from '@/components/core/localization-provider';
@@ -20,6 +21,7 @@ export default function Layout({ children }: LayoutProps): React.JSX.Element {
     <html lang="en">
       <body>
         <ReactQueryContext>
+          <Toaster richColors />
           <LocalizationProvider>
             <UserProvider>
               <ThemeProvider>{children}</ThemeProvider>
