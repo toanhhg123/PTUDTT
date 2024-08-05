@@ -22,8 +22,6 @@ namespace Backend.Models
 
         public string? Status { get; set; }
         public User User { get; set; } = null!;
-       
-        [JsonIgnore]
         public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
     }

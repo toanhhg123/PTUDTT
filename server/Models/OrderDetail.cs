@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Backend.Models
 {
@@ -17,6 +18,7 @@ namespace Backend.Models
         public decimal Price { get; set; }
 
         [ForeignKey("OrderId")]
+        [JsonIgnore]
         public Order Order { get; set; } = null!;
 
         [ForeignKey("ProductId")]
