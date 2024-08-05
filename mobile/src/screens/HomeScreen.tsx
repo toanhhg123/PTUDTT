@@ -1,7 +1,9 @@
+import Icons from "@expo/vector-icons/MaterialIcons";
 import { useTheme } from "@react-navigation/native";
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import { MasonryFlashList } from "@shopify/flash-list";
+import { BlurView } from "expo-blur";
+import React, { useState } from "react";
 import {
-  Button,
   FlatList,
   Image,
   ScrollView,
@@ -14,15 +16,29 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import CardProduct from "../components/CardProduct";
 import HeaderUser from "../components/HeaderUser";
 import HomeSearch from "../components/HomeSearch";
-import Icons from "@expo/vector-icons/MaterialIcons";
-import { BlurView } from "expo-blur";
-import { MasonryFlashList } from "@shopify/flash-list";
 
-import { MESONARY_LIST_DATA, CATEGORIES } from "../../data";
+import { useQuery } from "@tanstack/react-query";
+import useGetCategory from "../hooks/useGetCategory";
+import { productApi } from "../services/product";
+import { Product } from "../types/product";
+import Grids from "../components/GridProduct";
+import { TabsStackScreenProps } from "../navigations/TabNavigator";
 
-export default function HomeScreen() {
+export default function HomeScreen({
+  navigation,
+}: TabsStackScreenProps<"Home">) {
+  const { data, error } = useQuery({
+    queryKey: [productApi.url],
+    queryFn: () => productApi.gets(),
+  });
+
+  const { categoryMap, categories } = useGetCategory();
+  const products = data?.data.data || [];
+
   const { colors } = useTheme();
   const [categoryIndex, setCategoryIndex] = useState(0);
+
+  console.log({ products });
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -65,7 +81,7 @@ export default function HomeScreen() {
         </View>
 
         <FlatList
-          data={CATEGORIES}
+          data={categories}
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{
@@ -94,124 +110,24 @@ export default function HomeScreen() {
                     opacity: isSelected ? 1 : 0.5,
                   }}
                 >
-                  {item}
+                  {item.name}
                 </Text>
               </TouchableOpacity>
             );
           }}
         />
 
-        <Grids />
+        {products.length > 0 && (
+          <Grids
+            onPress={(product) => {
+              navigation.navigate("Details", {
+                id: product.id,
+              });
+            }}
+            products={products}
+          />
+        )}
       </SafeAreaView>
     </ScrollView>
   );
 }
-
-const Grids = () => {
-  const { colors } = useTheme();
-
-  return (
-    <MasonryFlashList
-      data={MESONARY_LIST_DATA}
-      numColumns={2}
-      estimatedItemSize={200}
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={{ paddingHorizontal: 12 }}
-      renderItem={({ item, index: i }) => (
-        <View style={{ padding: 6 }}>
-          <View
-            style={{
-              aspectRatio: i === 0 ? 1 : 2 / 3,
-              position: "relative",
-              overflow: "hidden",
-              borderRadius: 24,
-            }}
-          >
-            <Image
-              source={{
-                uri: item.imageUrl,
-              }}
-              resizeMode="cover"
-              style={StyleSheet.absoluteFill}
-            />
-            <View
-              style={[
-                StyleSheet.absoluteFill,
-                {
-                  padding: 12,
-                },
-              ]}
-            >
-              <View style={{ flexDirection: "row", gap: 8, padding: 4 }}>
-                <Text
-                  style={{
-                    flex: 1,
-                    fontSize: 16,
-                    fontWeight: "600",
-                    color: "#fff",
-                    opacity: 0.4,
-                    textShadowColor: "rgba(0,0,0,0.2)",
-                    textShadowOffset: {
-                      height: 1,
-                      width: 0,
-                    },
-                    textShadowRadius: 4,
-                  }}
-                >
-                  {item.title}
-                </Text>
-                <View
-                  style={{
-                    backgroundColor: colors.card,
-                    borderRadius: 100,
-                    height: 32,
-                    aspectRatio: 1,
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Icons name="favorite-border" size={20} color={colors.text} />
-                </View>
-              </View>
-              <View style={{ flex: 1 }} />
-              <BlurView
-                style={{
-                  flexDirection: "row",
-                  backgroundColor: "rgba(0,0,0,0.5)",
-                  alignItems: "center",
-                  padding: 6,
-                  borderRadius: 100,
-                  overflow: "hidden",
-                }}
-                intensity={20}
-              >
-                <Text
-                  style={{
-                    flex: 1,
-                    fontSize: 16,
-                    fontWeight: "600",
-                    color: "#fff",
-                    marginLeft: 8,
-                  }}
-                  numberOfLines={1}
-                >
-                  ${item.price}
-                </Text>
-                <TouchableOpacity
-                  style={{
-                    paddingHorizontal: 12,
-                    paddingVertical: 8,
-                    borderRadius: 100,
-                    backgroundColor: "#fff",
-                  }}
-                >
-                  <Icons name="add-shopping-cart" size={18} color="#000" />
-                </TouchableOpacity>
-              </BlurView>
-            </View>
-          </View>
-        </View>
-      )}
-    />
-  );
-};

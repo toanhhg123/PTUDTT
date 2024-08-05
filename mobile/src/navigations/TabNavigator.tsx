@@ -1,21 +1,39 @@
-import { View, Text } from "react-native";
-import React from "react";
-import HomeScreen from "../screens/HomeScreen";
 import Icons from "@expo/vector-icons/MaterialIcons";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {
+  BottomTabScreenProps,
+  createBottomTabNavigator,
+} from "@react-navigation/bottom-tabs";
+import { CompositeScreenProps } from "@react-navigation/native";
+import React from "react";
+import { Text, View } from "react-native";
+import CustomBottomTabs from "../components/CustomBottomTabs";
+import HomeScreen from "../screens/HomeScreen";
+import { RootStackScreenProps } from "./RootNavigator";
+import CartScreen from "../screens/CartScreen";
 
-export type TabNavigatorParams = {
+export type TabsStackParamList = {
   Home: undefined;
+  Cart: undefined;
+  Payment: undefined;
   Profile: undefined;
-  cart: undefined;
-  payment: undefined;
 };
 
-const TabStack = createBottomTabNavigator<TabNavigatorParams>();
+const TabStack = createBottomTabNavigator<TabsStackParamList>();
+
+export type TabsStackScreenProps<T extends keyof TabsStackParamList> =
+  CompositeScreenProps<
+    BottomTabScreenProps<TabsStackParamList, T>,
+    RootStackScreenProps<"TabsStack">
+  >;
 
 export default function TabNavigator() {
   return (
-    <TabStack.Navigator>
+    <TabStack.Navigator
+      screenOptions={{
+        tabBarShowLabel: false,
+      }}
+      tabBar={(props) => <CustomBottomTabs {...props} />}
+    >
       <TabStack.Screen
         name="Home"
         component={HomeScreen}
@@ -36,16 +54,17 @@ export default function TabNavigator() {
         }}
       />
       <TabStack.Screen
-        name="cart"
-        component={ExampleComponent}
+        name="Cart"
+        component={CartScreen}
         options={{
+          headerShown: false,
           tabBarIcon(props) {
             return <Icons name="account-balance-wallet" {...props} />;
           },
         }}
       />
       <TabStack.Screen
-        name="payment"
+        name="Payment"
         component={ExampleComponent}
         options={{
           tabBarIcon(props) {

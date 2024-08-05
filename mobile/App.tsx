@@ -1,3 +1,4 @@
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import {
   DarkTheme,
   DefaultTheme,
@@ -7,14 +8,13 @@ import {
 import { StatusBar } from "expo-status-bar";
 import { useMemo } from "react";
 import { StyleSheet, useColorScheme } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import RootNavigator from "./src/navigations/RootNavigator";
-import {
-  BottomSheetModal,
-  BottomSheetView,
-  BottomSheetModalProvider,
-} from "@gorhom/bottom-sheet";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 export default function App() {
   const colorScheme = useColorScheme();
@@ -44,16 +44,18 @@ export default function App() {
   );
 
   return (
-    <SafeAreaProvider style={{ flex: 1 }}>
-      <GestureHandlerRootView style={styles.container}>
-        <NavigationContainer theme={theme}>
-          <BottomSheetModalProvider>
-            <RootNavigator />
-          </BottomSheetModalProvider>
-          <StatusBar style="dark" />
-        </NavigationContainer>
-      </GestureHandlerRootView>
-    </SafeAreaProvider>
+    <QueryClientProvider client={queryClient}>
+      <SafeAreaProvider style={{ flex: 1 }}>
+        <GestureHandlerRootView style={styles.container}>
+          <NavigationContainer theme={theme}>
+            <BottomSheetModalProvider>
+              <RootNavigator />
+            </BottomSheetModalProvider>
+            <StatusBar style="dark" />
+          </NavigationContainer>
+        </GestureHandlerRootView>
+      </SafeAreaProvider>
+    </QueryClientProvider>
   );
 }
 
