@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormControl, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material';
+import { FormControl, FormHelperText, InputLabel, OutlinedInput } from '@mui/material';
 import { Warning } from '@phosphor-icons/react';
 import { Controller, type FieldValues, type Path, type UseFormReturn } from 'react-hook-form';
 
@@ -7,17 +7,9 @@ interface PropsType<T extends FieldValues> {
   label?: string;
   form: UseFormReturn<T, unknown>;
   name: Path<T>;
-  items: { value: string; label: string }[];
-  onChange?: (value: string) => void;
 }
 
-function FormFieldSelect<T extends FieldValues>({
-  label,
-  form,
-  name,
-  items,
-  onChange: onChangeProps,
-}: PropsType<T>): React.ReactNode {
+function FormFieldNumber<T extends FieldValues>({ label, form, name }: PropsType<T>): React.ReactNode {
   const { control } = form;
 
   return (
@@ -30,23 +22,16 @@ function FormFieldSelect<T extends FieldValues>({
         return (
           <FormControl error={Boolean(error)} fullWidth>
             <InputLabel>{label}</InputLabel>
-
-            <Select
+            <OutlinedInput
               ref={ref}
               onBlur={onBlur}
-              onChange={(e) => {
-                onChangeProps ? onChangeProps(e.target.value) : onChange(e.target.value);
-              }}
-              value={value || ''}
+              value={String(value || '')}
               label={label}
-              variant="outlined"
-            >
-              {items.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </Select>
+              type="number"
+              onChange={(e) => {
+                onChange(Number(e.target.value));
+              }}
+            />
 
             {error ? (
               <FormHelperText>
@@ -61,4 +46,4 @@ function FormFieldSelect<T extends FieldValues>({
   );
 }
 
-export default FormFieldSelect;
+export default FormFieldNumber;

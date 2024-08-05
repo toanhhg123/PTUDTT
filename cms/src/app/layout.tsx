@@ -28,6 +28,8 @@ export default function Layout({ children }: LayoutProps): React.JSX.Element {
             </UserProvider>
           </LocalizationProvider>
         </ReactQueryContext>
+
+        <script async src="https://upload-widget.cloudinary.com/latest/global/all.js" type="text/javascript" />
       </body>
     </html>
   );

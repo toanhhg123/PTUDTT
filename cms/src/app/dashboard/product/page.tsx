@@ -4,10 +4,10 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { Download as DownloadIcon } from '@phosphor-icons/react/dist/ssr/Download';
-import { Plus as PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus';
 import { Upload as UploadIcon } from '@phosphor-icons/react/dist/ssr/Upload';
 
 import { config } from '@/config';
+import Create from '@/components/product/create';
 import ProductList from '@/components/product/product-list';
 
 export const metadata = { title: `Products | Dashboard | ${config.site.name}` } satisfies Metadata;
@@ -28,9 +28,7 @@ function ProductPage(): React.ReactNode {
           </Stack>
         </Stack>
         <div>
-          <Button startIcon={<PlusIcon fontSize="var(--icon-fontSize-md)" />} variant="contained">
-            Add
-          </Button>
+          <Create />
         </div>
       </Stack>
       <ProductList />
