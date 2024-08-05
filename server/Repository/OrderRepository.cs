@@ -89,6 +89,13 @@ namespace Backend.Repository
                 .ThenInclude(od => od.Product)
                 .ToListAsync();
         }
-
+        public async Task<List<Order>> GetOrdersByUserIdAsync(int userId)
+        {
+            return await _context.Orders
+                .Where(o => o.UserId == userId)
+                .Include(o => o.OrderDetails)
+                .ThenInclude(od => od.Product)
+                .ToListAsync();
+        }
     }
 }

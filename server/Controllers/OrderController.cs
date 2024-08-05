@@ -58,5 +58,23 @@ namespace Backend.Controllers
             var orders = await _orderRepo.GetAllOrdersAsync();
             return OnSuccess(orders);
         }
+        [HttpGet("order/{userId}")]
+        public async Task<IActionResult> GetOrdersByUserId(int userId)
+        {
+            try
+            {
+                var orders = await _orderRepo.GetOrdersByUserIdAsync(userId);
+                if (orders == null || !orders.Any())
+                {
+                   throw new Exception("No orders found for the given user ID.");
+                }
+
+                return OnSuccess(orders);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred: {ex.Message}");
+            }
+        }
     }
 }
