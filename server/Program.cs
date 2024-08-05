@@ -3,8 +3,11 @@ using Backend.Config.ExceptionHandle;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//! fuck méo dùng dc
+builder.Services.AddJsonOption();
 
 builder.Services.ConfigureCors();
+
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

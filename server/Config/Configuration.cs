@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Backend.Config
 {
@@ -33,7 +35,7 @@ namespace Backend.Config
       services.AddScoped<IOrderRepository, OrderRepository>();
       services.AddScoped<IStatisticsRepository, StatisticsRepository>();
 
-        }
+    }
 
     public static void ConfigureJwt(this IServiceCollection services, IConfiguration configuration)
     {
@@ -99,12 +101,11 @@ namespace Backend.Config
 
       services.AddProblemDetails();
     }
-        public static void AddJsonOption(IServiceCollection services)
-        {
-            services.AddControllers().AddJsonOptions(options =>
-            {
-                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
-            });
-        }
+    public static void AddJsonOption(this IServiceCollection services)
+    {
+      services.AddControllers().AddJsonOptions(options =>
+      {
+      });
     }
+  }
 }
