@@ -25,6 +25,8 @@ export const clientConfig = {
   URL_API: process.env.NEXT_PUBLIC_URL_API!,
 };
 
+console.log({ clientConfig });
+
 export const showToastSuccess = (type: 'create' | 'update' | 'delete'): void => {
   toast.success(`${type} success`);
 };
