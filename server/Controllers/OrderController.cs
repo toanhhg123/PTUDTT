@@ -95,5 +95,24 @@ namespace Backend.Controllers
                 throw new Exception($"An error occurred: {ex.Message}");
             }
         }
+        [HttpPatch("{id}/status/{status}")]
+        public async Task<IActionResult> UpdateOrderStatus(int id, int status)
+        {
+            try
+            {
+                var updatedOrder = await _orderRepo.UpdateOrderStatusAsync(id, status);
+                if (updatedOrder == null)
+                {
+                    return OnError<string>("Order not found or invalid status code.");
+                }
+
+                return OnSuccess(updatedOrder);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions or return a generic error message
+                return OnError<string>($"An error occurred: {ex.Message}");
+            }
+        }
     }
 }

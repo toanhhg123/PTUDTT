@@ -110,7 +110,33 @@ namespace Backend.Repository
             }
 
             _context.Orders.Remove(order);
-           // await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+
+            return order;
+        }
+        private static readonly Dictionary<int, string> StatusCodeToStatus = new Dictionary<int, string>
+        {
+            { 1, "Chờ giao hàng" },
+            { 2, "Đang giao" },
+            { 3, "Sắp nhận được hàng" },
+            { 4, "Đã giao thành công" }
+        };
+
+        public async Task<Order?> UpdateOrderStatusAsync(int orderId, int statusCode)
+        {
+            if (!StatusCodeToStatus.TryGetValue(statusCode, out var newStatus))
+            {
+                return null;
+            }
+
+            var order = await _context.Orders.FindAsync(orderId);
+            if (order == null)
+            {
+                return null;
+            }
+
+            order.Status = newStatus;
+            await _context.SaveChangesAsync();
 
             return order;
         }
