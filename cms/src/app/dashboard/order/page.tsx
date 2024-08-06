@@ -7,8 +7,8 @@ import { Download as DownloadIcon } from '@phosphor-icons/react/dist/ssr/Downloa
 import { Upload as UploadIcon } from '@phosphor-icons/react/dist/ssr/Upload';
 
 import { config } from '@/config';
+import OrderList from '@/components/order/order-list';
 import Create from '@/components/product/create';
-import ProductList from '@/components/product/product-list';
 
 export const metadata = { title: `Products | Dashboard | ${config.site.name}` } satisfies Metadata;
 
@@ -17,7 +17,7 @@ function ProductPage(): React.ReactNode {
     <Stack spacing={3}>
       <Stack direction="row" spacing={3}>
         <Stack spacing={1} sx={{ flex: '1 1 auto' }}>
-          <Typography variant="h4">Order</Typography>
+          <Typography variant="h4">Products</Typography>
           <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
             <Button color="inherit" startIcon={<UploadIcon fontSize="var(--icon-fontSize-md)" />}>
               Import
@@ -31,7 +31,7 @@ function ProductPage(): React.ReactNode {
           <Create />
         </div>
       </Stack>
-      <ProductList />
+      <OrderList />
     </Stack>
   );
 }

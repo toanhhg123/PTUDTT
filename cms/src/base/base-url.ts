@@ -1,1 +1,1 @@
-export type BaseURL = 'product' | 'user' | 'category' | 'brand' | 'supplier' | 'userAddress';
+export type BaseURL = 'product' | 'user' | 'category' | 'brand' | 'supplier' | 'userAddress' | 'order';

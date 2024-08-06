@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios';
+import moment from 'moment';
 import { toast } from 'sonner';
 
 import { getSiteURL } from '@/lib/get-site-url';
@@ -34,3 +35,13 @@ export const showToastError = (error: Error): void => {
     toast.error(response.error || JSON.stringify(error.response.data || error.message));
   }
 };
+
+export const formatDate = (date: string): string => {
+  try {
+    return moment(date).format('YYYY-MM-DD');
+  } catch (error) {
+    return '-';
+  }
+};
+
+export const statusOrder = ['Chờ giao hàng', 'Đang giao', 'Sắp nhận dc hàng', 'Đã giao thành công'];
