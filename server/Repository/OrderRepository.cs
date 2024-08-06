@@ -98,5 +98,21 @@ namespace Backend.Repository
           .ThenInclude(od => od.Product)
           .ToListAsync();
     }
-  }
+        public async Task<Order?> DeleteOrderAsync(int id)
+        {
+            var order = await _context.Orders
+                .Include(o => o.OrderDetails)
+                .FirstOrDefaultAsync(o => o.Id == id);
+
+            if (order == null || order.OrderDetails.Any())
+            {
+                return null;
+            }
+
+            _context.Orders.Remove(order);
+           // await _context.SaveChangesAsync();
+
+            return order;
+        }
+    }
 }

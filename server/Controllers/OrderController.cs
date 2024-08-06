@@ -76,5 +76,24 @@ namespace Backend.Controllers
                 throw new Exception($"An error occurred: {ex.Message}");
             }
         }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteOrder(int id)
+        {
+            try
+            {
+                var result = await _orderRepo.DeleteOrderAsync(id);
+                if (result == null)
+                {
+                    throw new Exception("Order not found or has associated order details.");
+                }
+
+                return OnSuccess(result);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions or return a generic error message
+                throw new Exception($"An error occurred: {ex.Message}");
+            }
+        }
     }
 }

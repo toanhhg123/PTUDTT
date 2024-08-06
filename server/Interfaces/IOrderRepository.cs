@@ -9,5 +9,6 @@ namespace Backend.Interfaces
         Task<Order?> GetOrderByIdAsync(int id);
         Task<IEnumerable<Order>> GetAllOrdersAsync();
         Task<List<Order>> GetOrdersByUserIdAsync(int userId);
+        Task<Order?> DeleteOrderAsync(int id);
     }
 }
