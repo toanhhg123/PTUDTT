@@ -45,3 +45,13 @@ export const formatDate = (date: string): string => {
 };
 
 export const statusOrder = ['Chờ giao hàng', 'Đang giao', 'Sắp nhận dc hàng', 'Đã giao thành công'];
+
+export const formatNumber = (num: number): string => {
+  const absNum = Math.abs(num);
+
+  if (absNum >= 1_000_000_000) return `${(num / 1_000_000_000).toFixed(1)}B`;
+  if (absNum >= 1_000_000) return `${(num / 1_000_000).toFixed(1)}M`;
+  if (absNum >= 1_000) return `${(num / 1_000).toFixed(1)}K`;
+
+  return num.toString();
+};
