@@ -63,12 +63,18 @@ namespace Backend.Repository
 
         public async Task<Category?> DeleteCategoryAsync(int id)
         {
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null)
+           
+            var category = await _context.Categories
+                .Include(c => c.Products) 
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            // Kiểm tra nếu category không tồn tại hoặc có sản phẩm liên quan
+            if (category == null || category.Products.Any())
             {
                 return null;
             }
 
+            // Xóa category
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
 

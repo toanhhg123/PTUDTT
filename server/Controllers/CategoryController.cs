@@ -71,7 +71,7 @@ namespace Backend.Controllers
             var deletedCategory = await _categoryRepo.DeleteCategoryAsync(id);
             if (deletedCategory == null)
             {
-                throw new Exception("Category not found or unable to delete.");
+                throw new Exception("Category not found or has associated products.");
             }
 
             return this.OnSuccess(deletedCategory);
