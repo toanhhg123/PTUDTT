@@ -1,4 +1,5 @@
-﻿using Backend.Interfaces;
+﻿using Backend.DTO.Cart;
+using Backend.Interfaces;
 using Backend.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,31 +14,26 @@ namespace Backend.Repository
             _context = context;
         }
 
-        public async Task<decimal> GetTotalProductValueAsync()
+        public async Task<ReportDTO> GetReportAsync()
         {
             var totalProductValue = await _context.Products
                 .SumAsync(p => p.PurchasePrice * p.Stock);
-            return totalProductValue;
-        }
 
-        public async Task<int> GetTotalUserCountAsync()
-        {
             var totalUsers = await _context.Users.CountAsync();
-            return totalUsers;
-        }
 
-        public async Task<decimal> GetSoldProductPercentageAsync()
-        {
             var totalProducts = await _context.Products.SumAsync(p => p.Stock);
             var soldProducts = await _context.OrderDetails.SumAsync(od => od.Quantity);
+            var soldProductPercentage = totalProducts == 0 ? 0 : (decimal)soldProducts / totalProducts * 100;
 
-            return totalProducts == 0 ? 0 : (decimal)soldProducts / totalProducts * 100;
-        }
-
-        public async Task<decimal> GetTotalOrderRevenueAsync()
-        {
             var totalOrderRevenue = await _context.Orders.SumAsync(o => o.TotalPrice);
-            return totalOrderRevenue;
+
+            return new ReportDTO
+            {
+                TotalProductValue = totalProductValue,
+                TotalUserCount = totalUsers,
+                SoldProductPercentage = soldProductPercentage,
+                TotalOrderRevenue = totalOrderRevenue
+            };
         }
     }
 }

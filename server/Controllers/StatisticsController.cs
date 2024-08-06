@@ -16,32 +16,11 @@ namespace Backend.Controllers
             _statisticsRepo = statisticsRepo;
         }
 
-        [HttpGet("total-product-revenue")]
-        public async Task<IActionResult> GetTotalProductRevenue()
+        [HttpGet("report")]
+        public async Task<IActionResult> GetReportAsync()
         {
-            var totalRevenue = await _statisticsRepo.GetTotalProductValueAsync();
-            return OnSuccess(new { totalRevenue });
-        }
-
-        [HttpGet("total-users")]
-        public async Task<IActionResult> GetTotalUserCount()
-        {
-            var totalUsers = await _statisticsRepo.GetTotalUserCountAsync();
-            return OnSuccess(new { totalUsers });
-        }
-
-        [HttpGet("sold-product-percentage")]
-        public async Task<IActionResult> GetSoldProductPercentage()
-        {
-            var soldProductPercentage = await _statisticsRepo.GetSoldProductPercentageAsync();
-            return OnSuccess(new { soldProductPercentage });
-        }
-
-        [HttpGet("total-order-revenue")]
-        public async Task<IActionResult> GetTotalOrderRevenue()
-        {
-            var totalOrderRevenue = await _statisticsRepo.GetTotalOrderRevenueAsync();
-            return OnSuccess(new { totalOrderRevenue });
+            var report = await _statisticsRepo.GetReportAsync();
+            return Ok(report);
         }
     }
 }

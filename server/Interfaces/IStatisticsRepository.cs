@@ -1,10 +1,9 @@
-﻿namespace Backend.Interfaces
+﻿using Backend.DTO.Cart;
+
+namespace Backend.Interfaces
 {
     public interface IStatisticsRepository
     {
-        Task<decimal> GetTotalProductValueAsync();
-        Task<int> GetTotalUserCountAsync();
-        Task<decimal> GetSoldProductPercentageAsync();
-        Task<decimal> GetTotalOrderRevenueAsync();
+        Task<ReportDTO> GetReportAsync();
     }
 }
