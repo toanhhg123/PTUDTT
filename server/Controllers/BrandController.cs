@@ -74,7 +74,7 @@ namespace Backend.Controllers
             var deletedBrand = await _brandRepo.DeleteBrandAsync(id);
             if (deletedBrand == null)
             {
-                throw new Exception("Brand not found.");
+                throw new Exception("Brand not found or has associated products.");
             }
             return OnSuccess(deletedBrand);
         }

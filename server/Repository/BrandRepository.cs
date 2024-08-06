@@ -67,16 +67,24 @@ namespace Backend.Repository
 
         public async Task<Brand?> DeleteBrandAsync(int id)
         {
-            var brand = await _context.Brands.FindAsync(id);
-            if (brand == null)
+          
+            var brand = await _context.Brands
+                .Include(b => b.Products) 
+                .FirstOrDefaultAsync(b => b.Id == id);
+
+      
+            if (brand == null || brand.Products.Any())
             {
                 return null;
             }
 
+         
+            // Xóa brand
             _context.Brands.Remove(brand);
             await _context.SaveChangesAsync();
 
             return brand;
         }
+
     }
 }
