@@ -12,6 +12,8 @@ import { List as ListIcon } from '@phosphor-icons/react/dist/ssr/List';
 import { MagnifyingGlass as MagnifyingGlassIcon } from '@phosphor-icons/react/dist/ssr/MagnifyingGlass';
 import { Users as UsersIcon } from '@phosphor-icons/react/dist/ssr/Users';
 
+import { type User } from '@/types/user';
+import { authClient } from '@/lib/auth/client';
 import { usePopover } from '@/hooks/use-popover';
 
 import { MobileNav } from './mobile-nav';
@@ -19,8 +21,14 @@ import { UserPopover } from './user-popover';
 
 export function MainNav(): React.JSX.Element {
   const [openNav, setOpenNav] = React.useState<boolean>(false);
-
   const userPopover = usePopover<HTMLDivElement>();
+  const [user, setUser] = React.useState<User | undefined>(undefined);
+
+  React.useEffect(() => {
+    authClient.getUser().then((data) => {
+      if (data.data) setUser(data.data);
+    });
+  }, []);
 
   return (
     <React.Fragment>
@@ -67,16 +75,16 @@ export function MainNav(): React.JSX.Element {
                 </IconButton>
               </Badge>
             </Tooltip>
-            <Avatar
-              onClick={userPopover.handleOpen}
-              ref={userPopover.anchorRef}
-              src="/assets/avatar.png"
-              sx={{ cursor: 'pointer' }}
-            />
+            <Avatar onClick={userPopover.handleOpen} ref={userPopover.anchorRef} src="" sx={{ cursor: 'pointer' }} />
           </Stack>
         </Stack>
       </Box>
-      <UserPopover anchorEl={userPopover.anchorRef.current} onClose={userPopover.handleClose} open={userPopover.open} />
+      <UserPopover
+        anchorEl={userPopover.anchorRef.current}
+        onClose={userPopover.handleClose}
+        open={userPopover.open}
+        user={user}
+      />
       <MobileNav
         onClose={() => {
           setOpenNav(false);

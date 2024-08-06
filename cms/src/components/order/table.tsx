@@ -119,7 +119,7 @@ function ColumAction({ row }: ColumActionProps): React.ReactNode {
     const index = statusOrder.findIndex((item) => item === status);
     if (index === -1) return;
 
-    updateStatus.mutate({ id: row.id, status: index });
+    updateStatus.mutate({ id: row.id, status: index + 1 });
   };
 
   return (

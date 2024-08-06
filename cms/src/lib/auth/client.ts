@@ -1,5 +1,8 @@
 'use client';
 
+import { authApi } from '@/services/auth';
+import { jwtDecode } from 'jwt-decode';
+
 import type { User } from '@/types/user';
 
 function generateToken(): string {
@@ -7,14 +10,6 @@ function generateToken(): string {
   window.crypto.getRandomValues(arr);
   return Array.from(arr, (v) => v.toString(16).padStart(2, '0')).join('');
 }
-
-const user = {
-  id: 'USR-000',
-  avatar: '/assets/avatar.png',
-  firstName: 'Sofia',
-  lastName: 'Rivers',
-  email: 'sofia@devias.io',
-} satisfies User;
 
 export interface SignUpParams {
   firstName: string;
@@ -28,7 +23,7 @@ export interface SignInWithOAuthParams {
 }
 
 export interface SignInWithPasswordParams {
-  email: string;
+  username: string;
   password: string;
 }
 
@@ -52,19 +47,22 @@ class AuthClient {
   }
 
   async signInWithPassword(params: SignInWithPasswordParams): Promise<{ error?: string }> {
-    const { email, password } = params;
-
-    // Make API request
+    const { username, password } = params;
 
     // We do not handle the API, so we'll check if the credentials match with the hardcoded ones.
-    if (email !== 'toanhhg123@gmail.com' || password !== '30122002') {
-      return { error: 'Invalid credentials' };
+    const data = await authApi
+      .login(username, password)
+      .then((res) => res.data.data)
+      .catch(() => ({
+        error: 'Sorry your account or password is incorrect',
+      }));
+
+    if (typeof data === 'string') {
+      localStorage.setItem('custom-auth-token', data);
+      return {};
     }
 
-    const token = generateToken();
-    localStorage.setItem('custom-auth-token', token);
-
-    return {};
+    return { error: data.error };
   }
 
   async resetPassword(_: ResetPasswordParams): Promise<{ error?: string }> {
@@ -84,8 +82,12 @@ class AuthClient {
     if (!token) {
       return { data: null };
     }
+    const decode = jwtDecode<{
+      unique_name: string;
+      role: string;
+    }>(token);
 
-    return { data: user };
+    return { data: { id: decode.role, email: `${decode.unique_name}@gmail.com`, name: decode.unique_name } };
   }
 
   async signOut(): Promise<{ error?: string }> {

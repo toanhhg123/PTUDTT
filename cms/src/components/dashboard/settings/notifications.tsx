@@ -48,7 +48,9 @@ export function Notifications(): React.JSX.Element {
         </CardContent>
         <Divider />
         <CardActions sx={{ justifyContent: 'flex-end' }}>
-          <Button variant="contained">Save changes</Button>
+          <Button disabled variant="contained">
+            Save changes
+          </Button>
         </CardActions>
       </Card>
     </form>

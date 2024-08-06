@@ -54,7 +54,7 @@ function TableProduct({ rows = [] }: PropsType): React.ReactNode {
                     </Stack>
                   </TableCell>
                   <TableCell>
-                    {row.purchasePrice}, {row.sellPrice}
+                    ${row.purchasePrice}, ${row.sellPrice}
                   </TableCell>
                   <TableCell>{row.stock}</TableCell>
                   <TableCell>{row.categoryId}</TableCell>
