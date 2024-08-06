@@ -74,7 +74,7 @@ public class UserController : ControllerProvider
         var deletedUser = await _userRepo.DeleteUserAsync(id);
         if (deletedUser == null)
         {
-            throw new Exception("User not found.");
+            throw new Exception("User not found or unable to delete.");
         }
         return this.OnSuccess(deletedUser);
     }

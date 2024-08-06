@@ -83,12 +83,25 @@ namespace Backend.Services
 
         public async Task<User?> DeleteUserAsync(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            // Tìm kiếm người dùng theo id
+            var user = await _context.Users
+                .Include(u => u.UsersAddress)  
+                .Include(u => u.Orders)          
+                .Include(u => u.Carts)          
+                .Include(u => u.PurchaseOrders)  
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            // Kiểm tra nếu người dùng không tồn tại hoặc có dữ liệu liên quan
+            if (user == null ||
+                user.UsersAddress.Any() ||
+                user.Orders.Any() ||
+                user.Carts.Any() ||
+                user.PurchaseOrders.Any())
             {
-                return null;
+                return null; // Không xóa nếu có liên kết dữ liệu hoặc không tìm thấy người dùng
             }
 
+            // Xóa người dùng
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
 
