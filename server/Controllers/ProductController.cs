@@ -60,7 +60,7 @@ namespace Backend.Controllers
             var deletedProduct = await _productRepo.DeleteProductAsync(id);
             if (deletedProduct == null)
             {
-                throw new Exception("Product not found.");
+                throw new Exception("Product not found or unable to delete.");
             }
             return OnSuccess(deletedProduct);
         }

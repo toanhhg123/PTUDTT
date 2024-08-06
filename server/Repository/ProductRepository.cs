@@ -73,17 +73,29 @@ namespace Backend.Repository
 
         public async Task<Product?> DeleteProductAsync(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
+            // Tìm kiếm sản phẩm theo id
+            var product = await _context.Products
+                .Include(p => p.Carts)                
+                .Include(p => p.OrderDetails)        
+                .Include(p => p.PurchaseOrderDetails) 
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            // Kiểm tra nếu sản phẩm không tồn tại hoặc có dữ liệu liên quan
+            if (product == null ||
+                product.Carts.Any() ||
+                product.OrderDetails.Any() ||
+                product.PurchaseOrderDetails.Any())
             {
-                return null;
+                return null; // Không xóa nếu có liên kết dữ liệu hoặc không tìm thấy sản phẩm
             }
 
+            // Xóa sản phẩm
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
 
             return product;
         }
+
         public async Task<IEnumerable<ProductDTO>> GetFilteredProductsAsync(ProductFilterDTO filter)
         {
             var query = _context.Products.AsQueryable();
