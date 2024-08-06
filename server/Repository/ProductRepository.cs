@@ -77,14 +77,12 @@ namespace Backend.Repository
             var product = await _context.Products
                 .Include(p => p.Carts)                
                 .Include(p => p.OrderDetails)        
-                .Include(p => p.PurchaseOrderDetails) 
                 .FirstOrDefaultAsync(p => p.Id == id);
 
             // Kiểm tra nếu sản phẩm không tồn tại hoặc có dữ liệu liên quan
             if (product == null ||
                 product.Carts.Any() ||
-                product.OrderDetails.Any() ||
-                product.PurchaseOrderDetails.Any())
+                product.OrderDetails.Any())
             {
                 return null; // Không xóa nếu có liên kết dữ liệu hoặc không tìm thấy sản phẩm
             }

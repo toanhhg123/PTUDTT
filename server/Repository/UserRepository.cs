@@ -88,15 +88,13 @@ namespace Backend.Services
                 .Include(u => u.UsersAddress)  
                 .Include(u => u.Orders)          
                 .Include(u => u.Carts)          
-                .Include(u => u.PurchaseOrders)  
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             // Kiểm tra nếu người dùng không tồn tại hoặc có dữ liệu liên quan
             if (user == null ||
                 user.UsersAddress.Any() ||
                 user.Orders.Any() ||
-                user.Carts.Any() ||
-                user.PurchaseOrders.Any())
+                user.Carts.Any())
             {
                 return null; // Không xóa nếu có liên kết dữ liệu hoặc không tìm thấy người dùng
             }

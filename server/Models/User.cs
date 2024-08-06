@@ -39,7 +39,5 @@ namespace Backend.Models
     [JsonIgnore]
     public ICollection<Order> Orders { get; set; } = new List<Order>();
 
-
-    public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; } = new List<PurchaseOrder>();
   }
 }

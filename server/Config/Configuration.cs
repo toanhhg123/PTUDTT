@@ -28,7 +28,6 @@ namespace Backend.Config
       services.AddScoped<IUserRepository, UserRepository>();
       services.AddScoped<IBrandRepository, BrandRepository>();
       services.AddScoped<ICategoryRepository, CategoryRepository>();
-      services.AddScoped<ISupplierRepository, SupplierRepository>();
       services.AddScoped<IUserAddressRepository, UserAddressRepository>();
       services.AddScoped<IProductRepository, ProductRepository>();
       services.AddScoped<ICartRepository, CartRepository>();
