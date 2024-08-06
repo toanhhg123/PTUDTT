@@ -35,6 +35,8 @@ namespace Backend.Models
         public ICollection<Cart> Carts { get; set; } = new List<Cart>();
         [JsonIgnore]
         public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+        [JsonIgnore]
+        public ICollection<RecommentProduct> RecommentProducts { get; set; } = new List<RecommentProduct>();
 
     }
 }
