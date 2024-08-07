@@ -15,10 +15,9 @@ function ProductList(): React.ReactNode {
     queryKey: [productApi.url],
   });
 
-  const [search, setSearch] = useState('');
-
   let products = data?.data.data || [];
 
+  const [search, setSearch] = useState('');
   if (search) {
     products = products.filter((p) => p.productName.toLowerCase().includes(search.toLowerCase()));
   }

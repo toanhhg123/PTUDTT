@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { brandApi } from '@/services/brand';
 import { Stack } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
@@ -15,12 +15,17 @@ export default function BranchList(): React.ReactNode {
     queryKey: [brandApi.url],
   });
 
-  const brands = data?.data.data || [];
+  let brands = data?.data.data || [];
+
+  const [search, setSearch] = useState('');
+  if (search) {
+    brands = brands.filter((c) => c?.name.toLowerCase().includes(search.toLowerCase()));
+  }
   if (isPending) return <Loading />;
 
   return (
     <Stack spacing={4}>
-      <SearchFilter />
+      <SearchFilter onSearch={setSearch} />
       <TableBrand rows={brands} />
     </Stack>
   );

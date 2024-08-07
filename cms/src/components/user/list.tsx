@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { userApi } from '@/services/user';
 import { Stack } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
@@ -15,12 +15,19 @@ export default function UserList(): React.ReactNode {
     queryKey: [userApi.url],
   });
 
-  const users = data?.data.data || [];
+  let users = data?.data.data || [];
+
+  const [search, setSearch] = useState('');
+
+  if (search) {
+    users = users.filter((c) => c?.username.toLowerCase().includes(search.toLowerCase()));
+  }
+
   if (isPending) return <Loading />;
 
   return (
     <Stack spacing={4}>
-      <SearchFilter />
+      <SearchFilter onSearch={setSearch} />
       <TableUser rows={users} />
     </Stack>
   );

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { categoryApi } from '@/services/category';
 import { Stack } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
@@ -15,12 +15,18 @@ export default function CategoryList(): React.ReactNode {
     queryKey: [categoryApi.url],
   });
 
-  const categories = data?.data.data || [];
+  let categories = data?.data.data || [];
+
+  const [search, setSearch] = useState('');
+  if (search) {
+    categories = categories.filter((c) => c.name.toLowerCase().includes(search.toLowerCase()));
+  }
+
   if (isPending) return <Loading />;
 
   return (
     <Stack spacing={4}>
-      <SearchFilter />
+      <SearchFilter onSearch={setSearch} />
       <TableCategory rows={categories} />
     </Stack>
   );
