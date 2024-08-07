@@ -1,4 +1,8 @@
+'use client';
+
 import * as React from 'react';
+import { productApi } from '@/services/product';
+import { LoadingButton } from '@mui/lab';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -8,6 +12,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { Clock as ClockIcon } from '@phosphor-icons/react/dist/ssr/Clock';
 import { Download as DownloadIcon } from '@phosphor-icons/react/dist/ssr/Download';
+import { useMutation } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 
 export interface Integration {
@@ -24,6 +29,16 @@ export interface IntegrationCardProps {
 }
 
 export function IntegrationCard({ integration }: IntegrationCardProps): React.JSX.Element {
+  const mutationMigrate = useMutation({
+    mutationFn: () => productApi.migrate(),
+  });
+
+  const handleApi = (): void => {
+    if (integration.id === 'INTEG-004') {
+      mutationMigrate.mutate();
+    }
+  };
+
   return (
     <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <CardContent sx={{ flex: '1 1 auto' }}>
@@ -52,7 +67,10 @@ export function IntegrationCard({ integration }: IntegrationCardProps): React.JS
         <Stack sx={{ alignItems: 'center' }} direction="row" spacing={1}>
           <DownloadIcon fontSize="var(--icon-fontSize-sm)" />
           <Typography color="text.secondary" display="inline" variant="body2">
-            {integration.installs} installs
+            {integration.installs}{' '}
+            <LoadingButton onClick={handleApi} loading={mutationMigrate.status === 'pending'}>
+              run
+            </LoadingButton>
           </Typography>
         </Stack>
       </Stack>

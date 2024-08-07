@@ -1,6 +1,8 @@
 import { AxiosError } from 'axios';
+import FileSaver from 'file-saver';
 import moment from 'moment';
 import { toast } from 'sonner';
+import * as XLSX from 'xlsx';
 
 import { getSiteURL } from '@/lib/get-site-url';
 import { LogLevel } from '@/lib/logger';
@@ -57,3 +59,20 @@ export const formatNumber = (num: number): string => {
 
   return num.toString();
 };
+
+export function exportToExcel(data: Record<string, string>[], fileName: string): void {
+  try {
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const dataBlob = new Blob([excelBuffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8',
+    });
+
+    FileSaver.saveAs(dataBlob, `${fileName}.xlsx`);
+  } catch (error) {
+    console.log(error);
+  }
+}

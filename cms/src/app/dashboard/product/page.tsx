@@ -3,12 +3,12 @@ import type { Metadata } from 'next';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { Download as DownloadIcon } from '@phosphor-icons/react/dist/ssr/Download';
 import { Upload as UploadIcon } from '@phosphor-icons/react/dist/ssr/Upload';
 
 import { config } from '@/config';
 import Create from '@/components/product/create';
 import ProductList from '@/components/product/product-list';
+import Export from '@/components/user/export';
 
 export const metadata = { title: `Products | Dashboard | ${config.site.name}` } satisfies Metadata;
 
@@ -22,9 +22,7 @@ function ProductPage(): React.ReactNode {
             <Button color="inherit" startIcon={<UploadIcon fontSize="var(--icon-fontSize-md)" />}>
               Import
             </Button>
-            <Button color="inherit" startIcon={<DownloadIcon fontSize="var(--icon-fontSize-md)" />}>
-              Export
-            </Button>
+            <Export type="product" />
           </Stack>
         </Stack>
         <div>

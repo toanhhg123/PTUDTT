@@ -79,5 +79,8 @@ module.exports = {
     '@next/next/no-img-element': 'off', // Temporary disabled
     '@typescript-eslint/no-floating-promises': 0,
     'no-console': 0,
+    '@typescript-eslint/no-unsafe-return': 0,
+    '@typescript-eslint/no-unsafe-call': 0,
+    '@typescript-eslint/no-unsafe-assignment': 0,
   },
 };

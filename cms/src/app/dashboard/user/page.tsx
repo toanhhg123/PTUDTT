@@ -3,11 +3,11 @@ import type { Metadata } from 'next';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { Download as DownloadIcon } from '@phosphor-icons/react/dist/ssr/Download';
 import { Upload as UploadIcon } from '@phosphor-icons/react/dist/ssr/Upload';
 
 import { config } from '@/config';
 import Create from '@/components/user/create';
+import Export from '@/components/user/export';
 import UserList from '@/components/user/list';
 
 export const metadata = { title: `User | Dashboard | ${config.site.name}` } satisfies Metadata;
@@ -22,9 +22,7 @@ function UserPage(): React.ReactNode {
             <Button color="inherit" startIcon={<UploadIcon fontSize="var(--icon-fontSize-md)" />}>
               Import
             </Button>
-            <Button color="inherit" startIcon={<DownloadIcon fontSize="var(--icon-fontSize-md)" />}>
-              Export
-            </Button>
+            <Export type="user" />
           </Stack>
         </Stack>
         <div>
