@@ -75,7 +75,7 @@ export default function LoginScreen({
               color="#000"
               style={styles.logo}
             />
-            <Text style={styles.title}>iPhone Store</Text>
+            <Text style={styles.title}>iPhone Store New</Text>
             <View style={styles.inputContainer}>
               <Ionicons
                 name="person-outline"

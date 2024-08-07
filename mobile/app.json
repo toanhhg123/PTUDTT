@@ -1,10 +1,10 @@
 {
   "expo": {
+    "version": "1.0.1",
     "owner": "toanhhg123",
     "slug": "ptudtm",
     "id": "36c67f29-b34d-4117-9fc3-fd64bfc893cf",
     "name": "mobile",
-    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
@@ -14,12 +14,14 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "buildNumber": "2"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#ffffff",
+        "versionCode": 2
       },
       "package": "com.toanhhg123.mobile"
     },
