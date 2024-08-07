@@ -29,8 +29,6 @@ import Toast from "react-native-toast-message";
 import { CartForm } from "../types/cart";
 import Loading from "../components/loading";
 
-const SIZES = ["XS", "S", "M", "L", "XL", "XXL", "3XL"];
-
 export default function DetailsScreen({
   navigation,
   route: {

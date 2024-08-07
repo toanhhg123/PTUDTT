@@ -12,6 +12,7 @@ import { RootStackScreenProps } from "./RootNavigator";
 import CartScreen from "../screens/CartScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import UpdateUserInfoScreen from "../screens/InfomationScreen";
+import PaymentScreen from "../screens/OrderScreen";
 
 export type TabsStackParamList = {
   Home: undefined;
@@ -59,7 +60,7 @@ export default function TabNavigator() {
       />
       <TabStack.Screen
         name="Payment"
-        component={ExampleComponent}
+        component={PaymentScreen}
         options={{
           tabBarIcon(props) {
             return <Icons name="person" {...props} />;

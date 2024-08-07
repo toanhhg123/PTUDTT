@@ -20,20 +20,22 @@ interface SettingItemProps {
   icon: React.ComponentProps<typeof Ionicons>["name"];
   title: string;
   description: string;
+  onPress?: () => void;
 }
 
 const SettingItem: React.FC<SettingItemProps> = ({
   icon,
   title,
   description,
+  onPress,
 }) => (
-  <View style={styles.settingItem}>
+  <TouchableOpacity onPress={onPress} style={styles.settingItem}>
     <Ionicons name={icon} size={24} color="#888" style={styles.icon} />
     <View style={styles.settingText}>
       <Text style={styles.settingTitle}>{title}</Text>
       <Text style={styles.settingDescription}>{description}</Text>
     </View>
-  </View>
+  </TouchableOpacity>
 );
 
 const ProfileScreen = ({ navigation }: TabsStackScreenProps<"Profile">) => {
@@ -72,8 +74,9 @@ const ProfileScreen = ({ navigation }: TabsStackScreenProps<"Profile">) => {
       <View style={styles.settingsContainer}>
         <SettingItem
           icon="flower-outline"
-          title="Appearance"
+          title="Address"
           description="Change app looks"
+          onPress={() => navigation.push("UserAddress")}
         />
         <SettingItem
           icon="notifications-outline"

@@ -7,4 +7,6 @@ export type BaseURL =
   | "userAddress"
   | "auth"
   | "cart"
-  | "payment";
+  | "payment"
+  | "userAddress"
+  | "order";

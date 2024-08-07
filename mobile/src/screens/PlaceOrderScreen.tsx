@@ -1,33 +1,53 @@
+import { Ionicons } from "@expo/vector-icons"; // Make sure to import this
+import { StripeProvider, useStripe } from "@stripe/stripe-react-native";
+import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import {
-  View,
+  Alert,
+  ScrollView,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-  Alert,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons } from "@expo/vector-icons"; // Make sure to import this
+import Loading from "../components/loading";
+import useGetUserModel from "../hooks/useGetUserModel";
 import { RootStackScreenProps } from "../navigations/RootNavigator";
-import { StripeProvider, useStripe } from "@stripe/stripe-react-native";
-import useGetUser from "../hooks/useGetUser";
-import { useQuery } from "@tanstack/react-query";
-import { paymentApi } from "../services/payment";
 import { cartApi } from "../services/cart";
+import { orderApi } from "../services/order";
+import { paymentApi } from "../services/payment";
+import { userAddressApi } from "../services/userAddress";
 
 const PlaceOrderScreen = ({
   navigation,
 }: RootStackScreenProps<"PlaceOrder">) => {
-  const user = useGetUser();
+  const { user } = useGetUserModel();
+  const queryClient = new QueryClient();
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
-  const [cardNumber, setCardNumber] = useState("");
-  const [expDate, setExpDate] = useState("");
-  const [cvv, setCvv] = useState("");
+  const { data: dataAddress } = useQuery({
+    queryKey: [userAddressApi.url, user?.id],
+    enabled: !!user?.id,
+    queryFn: () => userAddressApi.getByUserId(Number(user?.id)),
+  });
+
+  const orderMutation = useMutation({
+    mutationFn: (id: number) => orderApi.createOrderSuccess(id),
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: [orderApi.url],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [cartApi.url],
+      });
+    },
+    onError(e) {
+      console.log(e);
+    },
+  });
+
+  const userAddress = dataAddress?.data.data;
 
   const { data } = useQuery({
     queryFn: () => cartApi.getsByUserId(Number(user?.id!)),
@@ -50,7 +70,7 @@ const PlaceOrderScreen = ({
     const {
       data: { data },
     } = await paymentApi.createPayment({
-      userId: user.id,
+      userId: user.id.toString(),
       price,
     });
 
@@ -78,6 +98,7 @@ const PlaceOrderScreen = ({
       if (error) {
         Alert.alert(`Error code: ${error.code}`, error.message);
       } else {
+        orderMutation.mutate(Number(user?.id));
         Alert.alert("Success", "Your payment is confirmed!");
       }
     } catch (error) {}
@@ -88,6 +109,8 @@ const PlaceOrderScreen = ({
   const handleBack = () => {
     navigation.goBack();
   };
+
+  if (!user || !userAddress) return <Loading />;
 
   return (
     <StripeProvider publishableKey="pk_test_51OO1FjCs190ReUaqBfPXcz302Oo3xoXlbR2EACu9HCv6OYIzEyCiPfmitEV7VLMa7cwOeixQKHTDAZUrZqKflcyj00Gqd1ULGb">
@@ -107,16 +130,14 @@ const PlaceOrderScreen = ({
           <TextInput
             style={styles.input}
             placeholder="John Doe"
-            value={name}
-            onChangeText={setName}
+            value={user.name}
           />
 
           <Text style={styles.label}>Email</Text>
           <TextInput
             style={styles.input}
             placeholder="johndoe@example.com"
-            value={email}
-            onChangeText={setEmail}
+            value={user.email}
             keyboardType="email-address"
           />
 
@@ -124,41 +145,16 @@ const PlaceOrderScreen = ({
           <TextInput
             style={[styles.input, styles.addressInput]}
             placeholder="123 Main St, City, Country"
-            value={address}
-            onChangeText={setAddress}
+            value={userAddress.address || ""}
             multiline
           />
 
-          <Text style={styles.label}>Card Number</Text>
+          <Text style={styles.label}>Postal Code</Text>
           <TextInput
             style={styles.input}
             placeholder="1234 5678 9012 3456"
-            value={cardNumber}
-            onChangeText={setCardNumber}
-            keyboardType="numeric"
+            value={userAddress.postalCode || ""}
           />
-
-          <View style={styles.row}>
-            <View style={styles.column}>
-              <Text style={styles.label}>Expiration Date</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="MM/YY"
-                value={expDate}
-                onChangeText={setExpDate}
-              />
-            </View>
-            <View style={styles.column}>
-              <Text style={styles.label}>CVV</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="123"
-                value={cvv}
-                onChangeText={setCvv}
-                keyboardType="numeric"
-              />
-            </View>
-          </View>
 
           <TouchableOpacity style={styles.button} onPress={openPaymentSheet}>
             <Text style={styles.buttonText}>

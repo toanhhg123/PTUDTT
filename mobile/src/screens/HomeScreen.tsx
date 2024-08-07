@@ -26,17 +26,25 @@ export default function HomeScreen({
     queryFn: () => productApi.gets(),
   });
 
-  const { categoryMap, categories } = useGetCategory();
-  const products = data?.data.data || [];
+  const [search, setSearch] = useState("");
+
+  const { categories } = useGetCategory();
+  let products = data?.data.data || [];
 
   const { colors } = useTheme();
   const [categoryIndex, setCategoryIndex] = useState(0);
+
+  if (search) {
+    products = products.filter((p) =>
+      p.productName.toLowerCase().includes(search.toLowerCase())
+    );
+  }
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <SafeAreaView style={{ paddingVertical: 24, gap: 24 }}>
         <HeaderUser />
-        <HomeSearch />
+        <HomeSearch search={search} onSearch={setSearch} />
 
         <View style={{ paddingHorizontal: 24, gap: 8 }}>
           <View

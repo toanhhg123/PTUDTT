@@ -7,7 +7,12 @@ import CustomBackdrop from "./CustomBackdrop";
 import FilterView from "./FilterView";
 import { TextInput } from "react-native-gesture-handler";
 
-export default function HomeSearch() {
+interface Props {
+  search: string;
+  onSearch: (value: string) => void;
+}
+
+export default function HomeSearch({ search, onSearch }: Props) {
   const { colors } = useTheme();
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -43,9 +48,8 @@ export default function HomeSearch() {
           <Icons name="search" size={24} color={colors.border} />
           <TextInput
             placeholder=" Search..."
-            onChangeText={(value) => {
-              console.log(value);
-            }}
+            onChangeText={onSearch}
+            value={search}
             style={{
               color: colors.text,
               opacity: 0.5,
