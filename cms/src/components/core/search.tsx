@@ -1,8 +1,10 @@
+'use client';
+
 import * as React from 'react';
 import Card from '@mui/material/Card';
 import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import { MagnifyingGlass as MagnifyingGlassIcon } from '@phosphor-icons/react/dist/ssr/MagnifyingGlass';
+import { MagnifyingGlass } from '@phosphor-icons/react';
 
 interface PropsTypes {
   onSearch?: (value: string) => void;
@@ -20,7 +22,7 @@ export function SearchFilter({ onSearch }: PropsTypes): React.JSX.Element {
         }}
         startAdornment={
           <InputAdornment position="start">
-            <MagnifyingGlassIcon fontSize="var(--icon-fontSize-md)" />
+            <MagnifyingGlass fontSize="var(--icon-fontSize-md)" />
           </InputAdornment>
         }
         sx={{ maxWidth: '500px' }}

@@ -1,5 +1,5 @@
 import BaseApi from '@/base/api';
-import { AxiosResponse } from 'axios';
+import { type AxiosResponse } from 'axios';
 
 import { type Report } from '@/types/report';
 
