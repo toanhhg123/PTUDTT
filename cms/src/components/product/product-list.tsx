@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { productApi } from '@/services/product';
 import { Stack } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
@@ -15,11 +15,18 @@ function ProductList(): React.ReactNode {
     queryKey: [productApi.url],
   });
 
-  const products = data?.data.data || [];
+  const [search, setSearch] = useState('');
+
+  let products = data?.data.data || [];
+
+  if (search) {
+    products = products.filter((p) => p.productName.toLowerCase().includes(search.toLowerCase()));
+  }
+
   if (isPending) return <Loading />;
   return (
     <Stack spacing={4}>
-      <SearchFilter />
+      <SearchFilter onSearch={setSearch} />
       <TableProduct rows={products} />
     </Stack>
   );

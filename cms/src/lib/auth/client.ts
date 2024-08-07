@@ -3,7 +3,7 @@
 import { authApi } from '@/services/auth';
 import { jwtDecode } from 'jwt-decode';
 
-import type { User } from '@/types/user';
+import { EnumRole, type User } from '@/types/user';
 
 function generateToken(): string {
   const arr = new Uint8Array(12);
@@ -52,7 +52,17 @@ class AuthClient {
     // We do not handle the API, so we'll check if the credentials match with the hardcoded ones.
     const data = await authApi
       .login(username, password)
-      .then((res) => res.data.data)
+      .then((res) => {
+        const data = res.data.data;
+        if (!data) throw new Error('');
+        if (typeof data !== 'string') throw new Error();
+        const decode = jwtDecode<{
+          unique_name: string;
+          role: string;
+        }>(data);
+        if (decode.role !== EnumRole.Admin.toString()) throw new Error();
+        return data;
+      })
       .catch(() => ({
         error: 'Sorry your account or password is incorrect',
       }));
