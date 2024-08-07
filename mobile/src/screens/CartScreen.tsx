@@ -2,6 +2,7 @@ import { Ionicons } from "@expo/vector-icons"; // Make sure to install this pack
 import React from "react";
 import {
   FlatList,
+  Image,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -9,44 +10,89 @@ import {
   View,
 } from "react-native";
 import { TabsStackScreenProps } from "../navigations/TabNavigator";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { cartApi } from "../services/cart";
+import Loading from "../components/loading";
+import useGetUser from "../hooks/useGetUser";
+import { CartForm } from "../types/cart";
 
 const CartScreen = ({ navigation }: TabsStackScreenProps<"Cart">) => {
-  const cartItems = [
-    { id: "1", name: "Portable Stereo Speaker", price: 630.33, quantity: 3 },
-    { id: "2", name: "Rotargi Dining Chair", price: 630.33, quantity: 3 },
-    { id: "3", name: "Rotargi Dining Chair", price: 630.33, quantity: 3 },
-    { id: "3", name: "Rotargi Dining Chair", price: 630.33, quantity: 3 },
-    { id: "3", name: "Rotargi Dining Chair", price: 630.33, quantity: 3 },
-    { id: "3", name: "Rotargi Dining Chair", price: 630.33, quantity: 3 },
-    { id: "3", name: "Rotargi Dining Chair", price: 630.33, quantity: 3 },
-    { id: "3", name: "Rotargi Dining Chair", price: 630.33, quantity: 3 },
-    { id: "3", name: "Rotargi Dining Chair", price: 630.33, quantity: 3 },
-    { id: "3", name: "Rotargi Dining Chair", price: 630.33, quantity: 3 },
-    { id: "3", name: "Rotargi Dining Chair", price: 630.33, quantity: 3 },
-    { id: "3", name: "Rotargi Dining Chair", price: 630.33, quantity: 3 },
-    { id: "3", name: "Rotargi Dining Chair", price: 630.33, quantity: 3 },
-    { id: "3", name: "Rotargi Dining Chair", price: 630.33, quantity: 3 },
-    { id: "3", name: "Rotargi Dining Chair", price: 630.33, quantity: 3 },
-  ];
+  const user = useGetUser();
+  const queryClient = useQueryClient();
+
+  const { data, isPending, isLoading } = useQuery({
+    queryFn: () => cartApi.getsByUserId(Number(user?.id!)),
+    enabled: !!user?.id,
+    queryKey: [cartApi.url],
+  });
+
+  const mutationUpdateQuantity = useMutation({
+    mutationFn: (body: { cardId: number; cart: Partial<CartForm> }) =>
+      cartApi.update(body.cardId, body.cart),
+    onSuccess: (res) => {
+      console.log(res.data.data.quantity);
+      queryClient.invalidateQueries({ queryKey: [cartApi.url] });
+    },
+  });
+
+  const cartItems = data?.data.data || [];
+
+  if (isPending || isLoading) return <Loading />;
 
   const renderItem = ({ item }: { item: (typeof cartItems)[0] }) => (
     <View style={styles.cartItem}>
-      <View style={styles.itemImage} />
+      <Image
+        style={{
+          width: 50,
+          height: 50,
+          backgroundColor: "#ddd",
+          borderRadius: 10,
+          marginRight: 10,
+        }}
+        width={20}
+        source={{
+          uri: item.product.image,
+        }}
+      />
       <View style={styles.itemDetails}>
-        <Text style={styles.itemName}>{item.name}</Text>
-        <Text style={styles.itemPrice}>${item.price.toFixed(2)}</Text>
+        <Text style={styles.itemName}>{item.product.productName}</Text>
+        <Text style={styles.itemPrice}>
+          ${(item.product.sellPrice * item.quantity).toFixed(2)}
+        </Text>
         <Text style={styles.itemUnitPrice}>
-          ${(item.price / item.quantity).toFixed(2)} per unit
+          ${(item.product.sellPrice / item.quantity).toFixed(2)} per unit
         </Text>
       </View>
       <View style={styles.quantityControl}>
-        <TouchableOpacity style={styles.quantityButton}>
+        <TouchableOpacity
+          style={styles.quantityButton}
+          onPress={() => {
+            const value = item.quantity - 1;
+            if (value > 0) {
+              mutationUpdateQuantity.mutate({
+                cardId: item.id,
+                cart: { quantity: value },
+              });
+            }
+          }}
+        >
           <Text>-</Text>
         </TouchableOpacity>
         <Text style={styles.quantityText}>
           {item.quantity.toString().padStart(2, "0")}
         </Text>
-        <TouchableOpacity style={styles.quantityButton}>
+        <TouchableOpacity
+          style={styles.quantityButton}
+          onPress={() => {
+            const value = item.quantity + 1;
+            if (value <= item.product.stock) {
+              mutationUpdateQuantity.mutate({
+                cardId: item.id,
+                cart: { quantity: value },
+              });
+            }
+          }}
+        >
           <Text>+</Text>
         </TouchableOpacity>
       </View>
@@ -62,7 +108,7 @@ const CartScreen = ({ navigation }: TabsStackScreenProps<"Cart">) => {
         <View style={styles.cartIcon}>
           <Ionicons name="cart-outline" size={24} color="black" />
           <View style={styles.cartBadge}>
-            <Text style={styles.cartBadgeText}>2</Text>
+            <Text style={styles.cartBadgeText}>{cartItems.length}</Text>
           </View>
         </View>
         <TouchableOpacity>
@@ -128,8 +174,6 @@ const styles = StyleSheet.create({
   itemImage: {
     width: 50,
     height: 50,
-    backgroundColor: "#ddd",
-    marginRight: 10,
   },
   itemDetails: {
     flex: 1,
@@ -154,7 +198,6 @@ const styles = StyleSheet.create({
   },
   quantityButton: {
     padding: 5,
-    borderWidth: 1,
     borderColor: "#ddd",
   },
   quantityText: {

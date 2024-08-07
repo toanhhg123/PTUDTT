@@ -10,6 +10,7 @@ import CustomBottomTabs from "../components/CustomBottomTabs";
 import HomeScreen from "../screens/HomeScreen";
 import { RootStackScreenProps } from "./RootNavigator";
 import CartScreen from "../screens/CartScreen";
+import ProfileScreen from "../screens/ProfileScreen";
 
 export type TabsStackParamList = {
   Home: undefined;
@@ -44,15 +45,7 @@ export default function TabNavigator() {
           },
         }}
       />
-      <TabStack.Screen
-        name="Profile"
-        component={ExampleComponent}
-        options={{
-          tabBarIcon(props) {
-            return <Icons name="shopping-cart" {...props} />;
-          },
-        }}
-      />
+
       <TabStack.Screen
         name="Cart"
         component={CartScreen}
@@ -69,6 +62,16 @@ export default function TabNavigator() {
         options={{
           tabBarIcon(props) {
             return <Icons name="person" {...props} />;
+          },
+        }}
+      />
+
+      <TabStack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarIcon(props) {
+            return <Icons name="shopping-cart" {...props} />;
           },
         }}
       />

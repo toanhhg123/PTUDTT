@@ -1,13 +1,8 @@
-import Icons from "@expo/vector-icons/MaterialIcons";
 import { useTheme } from "@react-navigation/native";
-import { MasonryFlashList } from "@shopify/flash-list";
-import { BlurView } from "expo-blur";
 import React, { useState } from "react";
 import {
   FlatList,
-  Image,
   ScrollView,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -18,11 +13,10 @@ import HeaderUser from "../components/HeaderUser";
 import HomeSearch from "../components/HomeSearch";
 
 import { useQuery } from "@tanstack/react-query";
-import useGetCategory from "../hooks/useGetCategory";
-import { productApi } from "../services/product";
-import { Product } from "../types/product";
 import Grids from "../components/GridProduct";
+import useGetCategory from "../hooks/useGetCategory";
 import { TabsStackScreenProps } from "../navigations/TabNavigator";
+import { productApi } from "../services/product";
 
 export default function HomeScreen({
   navigation,
@@ -37,8 +31,6 @@ export default function HomeScreen({
 
   const { colors } = useTheme();
   const [categoryIndex, setCategoryIndex] = useState(0);
-
-  console.log({ products });
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>

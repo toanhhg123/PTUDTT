@@ -23,3 +23,9 @@ export enum EnumRole {
   Admin = "Admin",
   User = "User",
 }
+
+export interface UserToken {
+  unique_name: string;
+  role: string;
+  id: string;
+}

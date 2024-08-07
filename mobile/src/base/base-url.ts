@@ -4,4 +4,6 @@ export type BaseURL =
   | "category"
   | "brand"
   | "supplier"
-  | "userAddress";
+  | "userAddress"
+  | "auth"
+  | "cart";

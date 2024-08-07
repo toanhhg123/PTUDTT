@@ -8,6 +8,7 @@ import DetailsScreen from "../screens/DetailsScreen";
 import LoginScreen from "../screens/LoginScreen";
 import TabNavigator, { TabsStackParamList } from "./TabNavigator";
 import PlaceOrderScreen from "../screens/PlaceOrderScreen";
+import RegisterScreen from "../screens/RegisterScreen";
 
 export type RootStackParamList = {
   TabsStack: NavigatorScreenParams<TabsStackParamList>;
@@ -16,6 +17,7 @@ export type RootStackParamList = {
   };
   Login: undefined;
   PlaceOrder: undefined;
+  Register: undefined;
 };
 
 export const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -25,7 +27,7 @@ export type RootStackScreenProps<T extends keyof RootStackParamList> =
 
 const RootNavigator = () => {
   return (
-    <RootStack.Navigator>
+    <RootStack.Navigator initialRouteName="Login">
       <RootStack.Screen
         name="TabsStack"
         component={TabNavigator}
@@ -51,6 +53,14 @@ const RootNavigator = () => {
       <RootStack.Screen
         name="Login"
         component={LoginScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <RootStack.Screen
+        name="Register"
+        component={RegisterScreen}
         options={{
           headerShown: false,
         }}

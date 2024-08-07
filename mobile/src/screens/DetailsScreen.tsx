@@ -1,5 +1,10 @@
 import { useTheme } from "@react-navigation/native";
-import { useQuery } from "@tanstack/react-query";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import React, { useState } from "react";
 
 import {
@@ -18,6 +23,11 @@ import {
 import { StatusBar } from "expo-status-bar";
 import Icons from "@expo/vector-icons/MaterialIcons";
 import BottomSheet from "@gorhom/bottom-sheet";
+import { cartApi } from "../services/cart";
+import useGetUser from "../hooks/useGetUser";
+import Toast from "react-native-toast-message";
+import { CartForm } from "../types/cart";
+import Loading from "../components/loading";
 
 const SIZES = ["XS", "S", "M", "L", "XL", "XXL", "3XL"];
 
@@ -30,8 +40,25 @@ export default function DetailsScreen({
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const [count, setCount] = useState(1);
-  const [size, setSize] = useState(SIZES[0]);
 
+  const queryClient = useQueryClient();
+
+  const mutationAddToCart = useMutation({
+    mutationFn: (cart: CartForm) => cartApi.post(cart),
+    onSuccess: (res) => {
+      navigation.push("TabsStack", { screen: "Cart" });
+      queryClient.invalidateQueries({ queryKey: [cartApi.url] });
+    },
+    onError: (e) => {
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "error",
+      });
+    },
+  });
+
+  const user = useGetUser();
   const { isLoading, data } = useQuery({
     queryFn: () => productApi.get(id),
     queryKey: [productApi.url, id],
@@ -39,13 +66,19 @@ export default function DetailsScreen({
 
   const product = data?.data.data;
 
-  if (isLoading || !product) {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="small" color={colors.primary} />
-      </View>
-    );
-  }
+  if (isLoading || !product) return <Loading />;
+
+  const handleAddToCart = () => {
+    if (!user) return;
+
+    console.log(user);
+    const body: CartForm = {
+      userId: Number(user.id),
+      productId: product.id,
+      quantity: count,
+    };
+    mutationAddToCart.mutate(body);
+  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -206,59 +239,6 @@ export default function DetailsScreen({
           </View>
 
           <View>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Text
-                style={{
-                  flex: 1,
-                  fontSize: 16,
-                  fontWeight: "600",
-                  color: colors.text,
-                  textTransform: "uppercase",
-                }}
-              >
-                Model is 6'1'', Size M
-              </Text>
-              <Text style={{ color: colors.text, opacity: 0.5 }}>
-                Size guide
-              </Text>
-            </View>
-
-            <View
-              style={{
-                flexDirection: "row",
-                flexWrap: "wrap",
-                gap: 6,
-                marginTop: 6,
-              }}
-            >
-              {SIZES.map((s, i) => (
-                <TouchableOpacity
-                  key={i}
-                  onPress={() => setSize(s)}
-                  style={{
-                    width: 44,
-                    height: 44,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: s === size ? colors.primary : colors.card,
-                    borderRadius: 44,
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: s === size ? colors.card : colors.text,
-                      fontWeight: "600",
-                      fontSize: 16,
-                    }}
-                  >
-                    {s}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          </View>
-
-          <View>
             <Text
               style={{
                 fontSize: 16,
@@ -273,9 +253,7 @@ export default function DetailsScreen({
               style={{ color: colors.text, opacity: 0.75 }}
               numberOfLines={3}
             >
-              Aute magna dolore sint ipsum dolor fugiat. Ad magna ad elit labore
-              culpa sunt sint laboris consectetur sunt. Lorem excepteur occaecat
-              reprehenderit nostrud culpa ad ex exercitation tempor.
+              {product.desc || "updating"}
             </Text>
           </View>
 
@@ -295,11 +273,12 @@ export default function DetailsScreen({
                   fontWeight: "600",
                 }}
               >
-                ${(25000).toLocaleString()}
+                ${product.sellPrice.toLocaleString()}
               </Text>
             </View>
 
             <TouchableOpacity
+              onPress={handleAddToCart}
               style={{
                 backgroundColor: colors.primary,
                 height: 64,

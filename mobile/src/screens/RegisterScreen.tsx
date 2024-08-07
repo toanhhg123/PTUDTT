@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -12,18 +12,16 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { RootStackScreenProps } from "../navigations/RootNavigator";
 import Toast from "react-native-toast-message";
-import { authApi } from "../services/auth";
-import { jwtDecode } from "jwt-decode";
-import { UserToken } from "../types/user";
 
-export default function LoginScreen({
+export default function RegisterScreen({
   navigation,
-}: RootStackScreenProps<"Login">) {
-  const [username, setUsername] = useState("");
+}: RootStackScreenProps<"Register">) {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleLogin = () => {
-    if (!username || !password) {
+    if (!email || !password || !confirmPassword) {
       Toast.show({
         type: "error",
         text1: "Error",
@@ -32,34 +30,21 @@ export default function LoginScreen({
       return;
     }
 
-    authApi
-      .login(username, password)
-      .then((res) => {
-        const token = res.data.data;
-
-        const dataToken = jwtDecode<UserToken>(token);
-
-        //TODO save store
-        authApi.saveAsyncStore(dataToken);
-
-        Toast.show({
-          type: "success",
-          text1: "Success",
-          text2: "Login successful",
-        });
-
-        navigation.navigate("TabsStack", { screen: "Home" });
-      })
-      .catch(() => {
-        Toast.show({
-          type: "error",
-          text1: "Error",
-          text2: "Username and password not correct",
-        });
+    if (password !== confirmPassword) {
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "Passwords do not match",
       });
-  };
+      return;
+    }
 
-  useValidAuth(navigation);
+    Toast.show({
+      type: "success",
+      text1: "Success",
+      text2: "Login successful",
+    });
+  };
 
   return (
     <View style={styles.background}>
@@ -78,17 +63,18 @@ export default function LoginScreen({
             <Text style={styles.title}>iPhone Store</Text>
             <View style={styles.inputContainer}>
               <Ionicons
-                name="person-outline"
+                name="mail-outline"
                 size={24}
                 color="#000"
                 style={styles.icon}
               />
               <TextInput
                 style={styles.input}
-                placeholder="Username"
+                placeholder="Email"
                 placeholderTextColor="#999"
-                value={username}
-                onChangeText={setUsername}
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
                 autoCapitalize="none"
               />
             </View>
@@ -108,15 +94,32 @@ export default function LoginScreen({
                 secureTextEntry
               />
             </View>
+
+            <View style={styles.inputContainer}>
+              <Ionicons
+                name="lock-closed-outline"
+                size={24}
+                color="#000"
+                style={styles.icon}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Confirm Password"
+                placeholderTextColor="#999"
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+                secureTextEntry
+              />
+            </View>
             <TouchableOpacity style={styles.button} onPress={handleLogin}>
-              <Text style={styles.buttonText}>Login</Text>
+              <Text style={styles.buttonText}>Register</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate("Register");
+                navigation.navigate("Login");
               }}
             >
-              <Text style={styles.forgotPassword}>Register</Text>
+              <Text style={styles.forgotPassword}>login</Text>
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
@@ -188,12 +191,3 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
 });
-
-const useValidAuth = (navigation: any) =>
-  useEffect(() => {
-    authApi.getStore().then((res) => {
-      if (res !== null) {
-        navigation.navigate("TabsStack", { screen: "Home" });
-      }
-    });
-  }, []);
