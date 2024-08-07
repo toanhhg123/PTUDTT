@@ -12,16 +12,42 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { RootStackScreenProps } from "../navigations/RootNavigator";
 import Toast from "react-native-toast-message";
+import { useMutation } from "@tanstack/react-query";
+import { authApi } from "../services/auth";
+import { UserRegister, UserToken } from "../types/user";
+import { jwtDecode } from "jwt-decode";
 
 export default function RegisterScreen({
   navigation,
 }: RootStackScreenProps<"Register">) {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const registerMutation = useMutation({
+    mutationFn: (user: UserRegister) => authApi.register(user),
+    onSuccess(res) {
+      const token = res.data.data;
+      const dataToken = jwtDecode<UserToken>(token);
+      authApi.saveAsyncStore(dataToken);
+      navigation.navigate("TabsStack", { screen: "Home" });
+      Toast.show({
+        type: "success",
+        text1: "Success",
+        text2: "register successful",
+      });
+    },
+    onError(e) {
+      Toast.show({
+        type: "error",
+        text1: "Success",
+        text2: "account is really exist",
+      });
+    },
+  });
+
   const handleLogin = () => {
-    if (!email || !password || !confirmPassword) {
+    if (!username || !password || !confirmPassword) {
       Toast.show({
         type: "error",
         text1: "Error",
@@ -39,11 +65,15 @@ export default function RegisterScreen({
       return;
     }
 
-    Toast.show({
-      type: "success",
-      text1: "Success",
-      text2: "Login successful",
-    });
+    const body = {
+      username,
+      email: username + "@gmail.com",
+      password,
+      name: username,
+      phone: "1234567890",
+    };
+
+    registerMutation.mutate(body);
   };
 
   return (
@@ -63,18 +93,17 @@ export default function RegisterScreen({
             <Text style={styles.title}>iPhone Store</Text>
             <View style={styles.inputContainer}>
               <Ionicons
-                name="mail-outline"
+                name="person-circle-outline"
                 size={24}
                 color="#000"
                 style={styles.icon}
               />
               <TextInput
                 style={styles.input}
-                placeholder="Email"
+                placeholder="username"
                 placeholderTextColor="#999"
-                value={email}
-                onChangeText={setEmail}
-                keyboardType="email-address"
+                value={username}
+                onChangeText={setUsername}
                 autoCapitalize="none"
               />
             </View>

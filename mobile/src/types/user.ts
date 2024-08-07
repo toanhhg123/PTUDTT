@@ -29,3 +29,11 @@ export interface UserToken {
   role: string;
   id: string;
 }
+
+export interface UserRegister {
+  name: string;
+  username: string;
+  password: string;
+  email: string;
+  phone: string;
+}

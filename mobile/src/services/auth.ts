@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import BaseApi from "../base/api";
 import { AxiosResponseApi } from "../base/axios";
-import { UserModel, UserToken } from "../types/user";
+import { UserModel, UserRegister, UserToken } from "../types/user";
 
 class AuthApi extends BaseApi<UserModel, never, never> {
   readonly KEY_AUTH_STORE = "KEY_AUTH_STORE";
@@ -12,6 +12,12 @@ class AuthApi extends BaseApi<UserModel, never, never> {
 
   login(username: string, password: string): Promise<AxiosResponseApi<string>> {
     return this.api.post(`${this.url}/login`, { username, password });
+  }
+
+  register(user: UserRegister): Promise<AxiosResponseApi<string>> {
+    return this.api
+      .post(`${this.url}/register`, user)
+      .then(() => this.login(user.username, user.password));
   }
 
   async saveAsyncStore(user: UserToken) {

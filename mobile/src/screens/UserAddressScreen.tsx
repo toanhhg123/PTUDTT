@@ -26,67 +26,85 @@ const UserAddressScreen = () => {
 
   const userAddress = data?.data.data;
 
-  if (!userAddress || isFetching || isLoading) return <Loading />;
+  console.log({ user });
+
+  if (isFetching || isLoading || !user) return <Loading />;
 
   return (
     <ScrollView
       style={styles.container}
       contentContainerStyle={styles.contentContainer}
     >
-      <FormUserAddress userAddress={userAddress} />
+      <FormUserAddress userId={user.id} userAddress={userAddress} />
     </ScrollView>
   );
 };
 
 const FormUserAddress = ({
+  userId,
   userAddress,
   disableUpdate,
 }: {
-  userAddress: UserAddress;
+  userId: number;
+  userAddress?: UserAddress;
   disableUpdate?: boolean;
 }) => {
   const queryClient = new QueryClient();
-  const [data, setData] = useState(userAddress);
+  const [data, setData] = useState({
+    userId: userId,
+    address: userAddress?.address || "",
+    city: userAddress?.city || "",
+    district: userAddress?.district || "",
+    ward: userAddress?.ward || "",
+    country: userAddress?.country || "",
+    postalCode: userAddress?.postalCode || "",
+  });
 
   const updateAddressMutation = useMutation({
     mutationFn: (body: UserAddressRequest) =>
-      userAddressApi.update(body.userId, body),
-    onSuccess() {
+      userAddressApi.createOrUpdate(
+        body.userId,
+        body,
+        !!userAddress?.userId ? "update" : "create"
+      ),
+    onSuccess(data) {
+      console.log(data.data.data);
       queryClient.invalidateQueries({ queryKey: [userAddressApi.url] });
       Toast.show({
         type: "success",
         text1: "success",
       });
     },
+    onError: (e) => {},
   });
 
   const handleUpdate = () => {
     updateAddressMutation.mutate({
-      userId: data.userId,
-      address: data.address || "",
-      city: data.city || "",
-      district: data.district || "",
-      ward: data.ward || "",
-      country: data.country || "",
-      postalCode: data.postalCode || "",
+      userId: userId,
+      address: data?.address || "",
+      city: data?.city || "",
+      district: data?.district || "",
+      ward: data?.ward || "",
+      country: data?.country || "",
+      postalCode: data?.postalCode || "",
     });
   };
 
   return (
     <View style={{ flex: 1 }}>
-      <Text style={styles.label}>Ward</Text>
+      <Text style={styles.label}>Country</Text>
       <TextInput
         style={styles.input}
         placeholder="Viet Nam"
-        value={data.country || ""}
+        value={data?.country || ""}
         onChangeText={(country) => setData({ ...data, country })}
       />
 
-      <Text style={styles.label}>Email</Text>
+      <Text style={styles.label}>City</Text>
       <TextInput
         style={styles.input}
         placeholder="Ha Noi"
-        value={data.city || ""}
+        value={data?.city || ""}
         onChangeText={(city) => setData({ ...data, city })}
       />
 
@@ -94,7 +112,7 @@ const FormUserAddress = ({
       <TextInput
         style={styles.input}
         placeholder="Tan Phu"
-        value={data.district || ""}
+        value={data?.district || ""}
         onChangeText={(district) => setData({ ...data, district })}
       />
 
@@ -102,7 +120,7 @@ const FormUserAddress = ({
       <TextInput
         style={[styles.input, styles.addressInput]}
         placeholder="123 Main St, City, Country"
-        value={data.address || ""}
+        value={data?.address || ""}
         onChangeText={(address) => setData({ ...data, address })}
         multiline
       />
@@ -113,7 +131,7 @@ const FormUserAddress = ({
           <TextInput
             style={styles.input}
             placeholder="ID"
-            value={data.userId.toString() || ""}
+            value={data?.userId.toString() || ""}
             onChangeText={() => {}}
           />
         </View>
@@ -122,7 +140,7 @@ const FormUserAddress = ({
           <TextInput
             style={styles.input}
             placeholder="123"
-            value={data.postalCode || ""}
+            value={data?.postalCode || ""}
             onChangeText={(postalCode) => setData({ ...data, postalCode })}
             keyboardType="numeric"
           />

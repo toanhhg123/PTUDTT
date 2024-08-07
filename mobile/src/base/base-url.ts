@@ -9,4 +9,5 @@ export type BaseURL =
   | "cart"
   | "payment"
   | "userAddress"
-  | "order";
+  | "order"
+  | "recomment";

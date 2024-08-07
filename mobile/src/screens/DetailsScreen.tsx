@@ -1,33 +1,22 @@
 import { useTheme } from "@react-navigation/native";
-import {
-  QueryClient,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
 
-import {
-  ActivityIndicator,
-  View,
-  Image,
-  TouchableOpacity,
-  Text,
-} from "react-native";
-import { RootStackScreenProps } from "../navigations/RootNavigator";
-import { productApi } from "../services/product";
+import Icons from "@expo/vector-icons/MaterialIcons";
+import BottomSheet from "@gorhom/bottom-sheet";
+import { StatusBar } from "expo-status-bar";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-import { StatusBar } from "expo-status-bar";
-import Icons from "@expo/vector-icons/MaterialIcons";
-import BottomSheet from "@gorhom/bottom-sheet";
-import { cartApi } from "../services/cart";
-import useGetUser from "../hooks/useGetUser";
 import Toast from "react-native-toast-message";
-import { CartForm } from "../types/cart";
 import Loading from "../components/loading";
+import useGetUser from "../hooks/useGetUser";
+import { RootStackScreenProps } from "../navigations/RootNavigator";
+import { cartApi } from "../services/cart";
+import { productApi } from "../services/product";
+import { CartForm } from "../types/cart";
 
 export default function DetailsScreen({
   navigation,
@@ -36,10 +25,9 @@ export default function DetailsScreen({
   },
 }: RootStackScreenProps<"Details">) {
   const { colors } = useTheme();
+  const queryClient = useQueryClient();
   const insets = useSafeAreaInsets();
   const [count, setCount] = useState(1);
-
-  const queryClient = useQueryClient();
 
   const mutationAddToCart = useMutation({
     mutationFn: (cart: CartForm) => cartApi.post(cart),
@@ -314,6 +302,19 @@ export default function DetailsScreen({
               </View>
             </TouchableOpacity>
           </View>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("RecommendProduct", { id });
+            }}
+          >
+            <Text
+              style={{
+                color: "#000",
+              }}
+            >
+              Recommend Products
+            </Text>
+          </TouchableOpacity>
         </View>
       </BottomSheet>
     </View>

@@ -11,10 +11,14 @@ import PlaceOrderScreen from "../screens/PlaceOrderScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import UpdateUserInfoScreen from "../screens/InfomationScreen";
 import UserAddressScreen from "../screens/UserAddressScreen";
+import RecommendProductScreen from "../screens/RecommendProductScreen";
 
 export type RootStackParamList = {
   TabsStack: NavigatorScreenParams<TabsStackParamList>;
   Details: {
+    id: number;
+  };
+  RecommendProduct: {
     id: number;
   };
   Login: undefined;
@@ -72,6 +76,10 @@ const RootNavigator = () => {
 
       <RootStack.Screen name="Information" component={UpdateUserInfoScreen} />
       <RootStack.Screen name="UserAddress" component={UserAddressScreen} />
+      <RootStack.Screen
+        name="RecommendProduct"
+        component={RecommendProductScreen}
+      />
     </RootStack.Navigator>
   );
 };

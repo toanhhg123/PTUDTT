@@ -110,7 +110,7 @@ const PlaceOrderScreen = ({
     navigation.goBack();
   };
 
-  if (!user || !userAddress) return <Loading />;
+  if (!user) return <Loading />;
 
   return (
     <StripeProvider publishableKey="pk_test_51OO1FjCs190ReUaqBfPXcz302Oo3xoXlbR2EACu9HCv6OYIzEyCiPfmitEV7VLMa7cwOeixQKHTDAZUrZqKflcyj00Gqd1ULGb">
@@ -145,7 +145,7 @@ const PlaceOrderScreen = ({
           <TextInput
             style={[styles.input, styles.addressInput]}
             placeholder="123 Main St, City, Country"
-            value={userAddress.address || ""}
+            value={userAddress?.address || ""}
             multiline
           />
 
@@ -153,7 +153,7 @@ const PlaceOrderScreen = ({
           <TextInput
             style={styles.input}
             placeholder="1234 5678 9012 3456"
-            value={userAddress.postalCode || ""}
+            value={userAddress?.postalCode || ""}
           />
 
           <TouchableOpacity style={styles.button} onPress={openPaymentSheet}>
