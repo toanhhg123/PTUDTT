@@ -11,6 +11,7 @@ import HomeScreen from "../screens/HomeScreen";
 import { RootStackScreenProps } from "./RootNavigator";
 import CartScreen from "../screens/CartScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import UpdateUserInfoScreen from "../screens/InfomationScreen";
 
 export type TabsStackParamList = {
   Home: undefined;

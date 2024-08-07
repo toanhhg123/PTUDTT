@@ -6,6 +6,7 @@ import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import { Product } from "../types/product";
+import useGetCategory from "../hooks/useGetCategory";
 
 interface Props {
   onPress: (product: Product) => void;
@@ -14,6 +15,7 @@ interface Props {
 
 const Grids = ({ products, onPress }: Props) => {
   const { colors } = useTheme();
+  const { categoryMap } = useGetCategory();
 
   return (
     <MasonryFlashList
@@ -67,7 +69,7 @@ const Grids = ({ products, onPress }: Props) => {
                       fontSize: 16,
                       fontWeight: "600",
                       color: "#fff",
-                      textShadowColor: "rgba(0,0,0,0.2)",
+                      textShadowColor: "rgba(0,0,0,0.5)",
                       textShadowOffset: {
                         height: 1,
                         width: 0,
@@ -75,7 +77,9 @@ const Grids = ({ products, onPress }: Props) => {
                       textShadowRadius: 4,
                     }}
                   >
-                    {item.productName}
+                    {item.categoryId
+                      ? categoryMap?.[item.categoryId]?.name
+                      : "Device"}
                   </Text>
                 </BlurView>
                 <View

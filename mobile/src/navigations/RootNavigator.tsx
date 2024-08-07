@@ -9,6 +9,7 @@ import LoginScreen from "../screens/LoginScreen";
 import TabNavigator, { TabsStackParamList } from "./TabNavigator";
 import PlaceOrderScreen from "../screens/PlaceOrderScreen";
 import RegisterScreen from "../screens/RegisterScreen";
+import UpdateUserInfoScreen from "../screens/InfomationScreen";
 
 export type RootStackParamList = {
   TabsStack: NavigatorScreenParams<TabsStackParamList>;
@@ -18,6 +19,7 @@ export type RootStackParamList = {
   Login: undefined;
   PlaceOrder: undefined;
   Register: undefined;
+  Information: undefined;
 };
 
 export const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -65,6 +67,8 @@ const RootNavigator = () => {
           headerShown: false,
         }}
       />
+
+      <RootStack.Screen name="Information" component={UpdateUserInfoScreen} />
     </RootStack.Navigator>
   );
 };

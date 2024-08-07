@@ -132,6 +132,7 @@ export default function DetailsScreen({
             <Icons name="favorite-border" size={24} color={"#fff"} />
           </TouchableOpacity>
           <TouchableOpacity
+            onPress={() => navigation.push("TabsStack", { screen: "Cart" })}
             style={{
               width: 52,
               aspectRatio: 1,

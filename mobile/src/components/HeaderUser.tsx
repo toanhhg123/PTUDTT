@@ -1,13 +1,13 @@
 import Icons from "@expo/vector-icons/MaterialIcons";
+import { useTheme } from "@react-navigation/native";
 import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
-import { useTheme } from "@react-navigation/native";
-
-const AVATAR_URL =
-  "https://images.unsplash.com/photo-1496345875659-11f7dd282d1d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80";
+import useGetUserModel from "../hooks/useGetUserModel";
+import { URL_PROFILE } from "../base/consts";
 
 export default function HeaderUser() {
   const { colors } = useTheme();
+  const { user } = useGetUserModel();
 
   return (
     <View
@@ -20,7 +20,7 @@ export default function HeaderUser() {
     >
       <Image
         source={{
-          uri: AVATAR_URL,
+          uri: URL_PROFILE,
         }}
         style={{ width: 52, aspectRatio: 1, borderRadius: 52 }}
         resizeMode="cover"
@@ -35,10 +35,10 @@ export default function HeaderUser() {
           }}
           numberOfLines={1}
         >
-          Hi, James 👋
+          Hi, {user?.name} 👋
         </Text>
         <Text style={{ color: colors.text, opacity: 0.75 }} numberOfLines={1}>
-          Discover fashion that suit your style
+          {user?.email}
         </Text>
       </View>
       <TouchableOpacity

@@ -7,6 +7,6 @@ export interface Product extends BaseModel {
   purchasePrice: number;
   sellPrice: number;
   image: string;
-  categoryId: number;
+  categoryId: number | null;
   brandId: number;
 }
