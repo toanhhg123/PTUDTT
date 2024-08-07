@@ -1,7 +1,7 @@
 import axios, { type AxiosError, type AxiosResponse } from "axios";
 
 const axiosClient = axios.create({
-  baseURL: "http://localhost:5137",
+  baseURL: "http://api.chinapost.io.vn",
 });
 
 axiosClient.interceptors.request.use(

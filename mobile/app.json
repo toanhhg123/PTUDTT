@@ -1,7 +1,9 @@
 {
   "expo": {
+    "owner": "toanhhg123",
+    "slug": "ptudtm",
+    "id": "36c67f29-b34d-4117-9fc3-fd64bfc893cf",
     "name": "mobile",
-    "slug": "mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,10 +20,22 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.toanhhg123.mobile"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "36c67f29-b34d-4117-9fc3-fd64bfc893cf"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/36c67f29-b34d-4117-9fc3-fd64bfc893cf"
     }
   }
 }

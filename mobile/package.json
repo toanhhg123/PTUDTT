@@ -24,6 +24,7 @@
     "expo-blur": "~13.0.2",
     "expo-linear-gradient": "~13.0.2",
     "expo-status-bar": "~1.12.1",
+    "expo-updates": "~0.25.22",
     "install": "^0.13.0",
     "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
