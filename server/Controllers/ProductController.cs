@@ -78,7 +78,7 @@ namespace Backend.Controllers
     }
 
     [HttpGet("migrate")]
-    public async Task<IActionResult> Trend()
+    public IActionResult Trend()
     {
       _productRepo.TrendModel();
       return this.OnSuccess("success");
