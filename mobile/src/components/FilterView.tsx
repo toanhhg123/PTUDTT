@@ -6,7 +6,7 @@ import Icons from "@expo/vector-icons/MaterialIcons";
 import PriceRangeSelector from "./PriceRangeSelector";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 
-const MAX_PRICE = 500;
+const MAX_PRICE = 2500;
 
 const COLORS = [
   {
@@ -59,18 +59,19 @@ const SLEEVES = [
   },
 ];
 
-type FilterHome = {
+export type FilterHome = {
   price: { startPrice: number; endPrice: number };
   color: string;
 };
 
 interface Props {
-  onFilter?: (filter: FilterHome) => {};
+  onFilter?: (filter: FilterHome) => void;
+  onReset?: () => void;
 }
 
-const FilterView = ({ onFilter }: Props) => {
+const FilterView = ({ onFilter, onReset }: Props) => {
   const [startPrice, setStartPrice] = useState(50);
-  const [endPrice, setEndPrice] = useState(250);
+  const [endPrice, setEndPrice] = useState(1500);
   const [color, setColor] = useState("Red");
   const [inch, setInch] = useState(5.1);
   const theme = useTheme();
@@ -105,7 +106,7 @@ const FilterView = ({ onFilter }: Props) => {
             >
               Filters
             </Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={onReset}>
               <Text
                 style={{
                   color: theme.colors.text,

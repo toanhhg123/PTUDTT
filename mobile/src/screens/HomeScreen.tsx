@@ -27,6 +27,7 @@ export default function HomeScreen({
   });
 
   const [search, setSearch] = useState("");
+  const [price, setPrice] = useState({ startPrice: 0, endPrice: 1000_000_000 });
 
   const { categories } = useGetCategory();
   let products = data?.data.data || [];
@@ -40,11 +41,24 @@ export default function HomeScreen({
     );
   }
 
+  products = products.filter(
+    (p) => p.sellPrice >= price.startPrice && p.sellPrice <= price.endPrice
+  );
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <SafeAreaView style={{ paddingVertical: 24, gap: 24 }}>
         <HeaderUser />
-        <HomeSearch search={search} onSearch={setSearch} />
+        <HomeSearch
+          search={search}
+          onSearch={setSearch}
+          onFilter={(filter) => {
+            setPrice(filter.price);
+          }}
+          onReset={() => {
+            setPrice({ startPrice: 0, endPrice: 1000_000_000 });
+          }}
+        />
 
         <View style={{ paddingHorizontal: 24, gap: 8 }}>
           <View

@@ -4,15 +4,22 @@ import { useTheme } from "@react-navigation/native";
 import { useCallback, useRef } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import CustomBackdrop from "./CustomBackdrop";
-import FilterView from "./FilterView";
+import FilterView, { FilterHome } from "./FilterView";
 import { TextInput } from "react-native-gesture-handler";
 
 interface Props {
   search: string;
   onSearch: (value: string) => void;
+  onFilter?: (filter: FilterHome) => void;
+  onReset?: () => void;
 }
 
-export default function HomeSearch({ search, onSearch }: Props) {
+export default function HomeSearch({
+  search,
+  onSearch,
+  onFilter,
+  onReset,
+}: Props) {
   const { colors } = useTheme();
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -88,7 +95,16 @@ export default function HomeSearch({ search, onSearch }: Props) {
           backgroundColor: colors.primary,
         }}
       >
-        <FilterView />
+        <FilterView
+          onFilter={(filter) => {
+            onFilter && onFilter(filter);
+            bottomSheetModalRef.current?.present();
+          }}
+          onReset={() => {
+            onReset && onReset();
+            bottomSheetModalRef.current?.present();
+          }}
+        />
       </BottomSheetModal>
     </>
   );
