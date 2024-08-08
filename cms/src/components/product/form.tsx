@@ -30,6 +30,10 @@ function FormProduct({ defaultValues, onSubmit, loading }: PropsType): React.Rea
           <FormFieldInput form={form} name="productName" label="Name" />
         </Grid>
 
+        <Grid xs={12}>
+          <FormFieldNumber form={form} name="stock" label="Stock" />
+        </Grid>
+
         <Grid xs={6}>
           <FormFieldNumber form={form} name="purchasePrice" label="Purchase Price" />
         </Grid>
